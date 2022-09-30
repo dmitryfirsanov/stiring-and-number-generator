@@ -17,4 +17,4 @@ public:
     int getType();
     int getMethod();
 };
-// в последующем создать класс arrayGenerator наследуемый unitGenerator добавить bool _isArray = true;
+// в последующем создать класс arrayGenerator наследуемый unitGenerator;
