@@ -1,20 +1,27 @@
 #pragma once
 #include <Windows.h>
 #include "MyForm.h"
+#include <string>
 using namespace coursework;
 ref class unitGenerator
 {
 private:
-    size_t _n;
+    int _n;
     int _type;
     int _method;
+    int _rangeArray;
 public:
     unitGenerator();
-    unitGenerator(size_t n, int type, int method);
+    unitGenerator(int n, int type, int method);
     ~unitGenerator();
 
-    size_t getN();
+    std::string midSquareMethodInt();
+
+    int getN();
     int getType();
     int getMethod();
 };
-// в последующем создать класс arrayGenerator наследуемый unitGenerator;
+
+std::string normalize(std::string str);
+
+// в последующем создать класс arrayGenerator наследуемый unitGenerator
