@@ -22,6 +22,8 @@ public:
     int getMethod();
 };
 
-std::string normalize(std::string str);
+std::string normalize(std::string &str);
+
+std::string trim_middle(std::string &str);
 
 // в последующем создать класс arrayGenerator наследуемый unitGenerator

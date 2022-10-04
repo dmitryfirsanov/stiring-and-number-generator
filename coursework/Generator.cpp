@@ -1,8 +1,7 @@
 #include "Generator.h"
-#include <cstdlib>
-#include <time.h>
 #include <string>
 #include <cmath>
+#include <random>
 
 unitGenerator::unitGenerator() : _n(5), _type(0), _method(0) {}
 
@@ -16,14 +15,25 @@ unitGenerator::~unitGenerator() {}
 
 std::string unitGenerator::midSquareMethodInt()
 {
-	srand(time(NULL));
-	int randX0 = rand() % (getN() + 1);
-	std::string str = std::to_string(pow(randX0, 2));
-	str.erase(str.rfind('.'), str.size() - 1);
-	str = normalize(str);
-	int size = ceil(str.size() / 4.0);
-	str.erase(0, size);
-	str.erase(str.size() - size, size);
+	std::random_device r;
+	std::default_random_engine e1(r());
+	std::uniform_int_distribution<int> uni_dist(0, getN());
+
+	auto x0 = uni_dist(e1);
+	std::string str = std::to_string(pow(x0, 2));
+	trim_middle(str);
+
+	while (str.find("0") == 0) {
+		str.erase(0, 1);
+	}
+	if (str == "") {
+		str += "0";
+	}
+
+	while (stoi(str) > getN()) {
+		str = midSquareMethodInt();
+	}
+
 	return str;
 }
 
@@ -39,7 +49,7 @@ int unitGenerator::getMethod() {
 	return _method;
 }
 
-std::string normalize(std::string str)
+std::string normalize(std::string &str)
 {
 	if (str.size() < 4) {
 		while (str.size() != 4) {
@@ -49,5 +59,15 @@ std::string normalize(std::string str)
 	else if (str.size() % 2 == 1) {
 		str.insert(0, "0");
 	}
+	return str;
+}
+
+std::string trim_middle(std::string &str)
+{
+	str.erase(str.rfind('.'), str.size() - 1);
+	normalize(str);
+	int size = ceil(str.size() / 4.0);
+	str.erase(0, size);
+	str.erase(str.size() - size, size);
 	return str;
 }

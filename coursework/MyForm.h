@@ -170,10 +170,10 @@ namespace coursework {
 				static_cast<System::Byte>(204)));
 			this->radioButton4->Location = System::Drawing::Point(6, 17);
 			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(118, 24);
+			this->radioButton4->Size = System::Drawing::Size(115, 24);
 			this->radioButton4->TabIndex = 0;
 			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"METHOD 1";
+			this->radioButton4->Text = L"Mid Square";
 			this->radioButton4->UseVisualStyleBackColor = true;
 			this->radioButton4->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton4_CheckedChanged);
 			// 
