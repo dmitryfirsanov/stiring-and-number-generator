@@ -15,11 +15,11 @@ unitGenerator::~unitGenerator() {}
 
 std::string unitGenerator::midSquareMethodInt()
 {
-	std::random_device r;
-	std::default_random_engine e1(r());
-	std::uniform_int_distribution<int> uni_dist(0, getN());
+	std::random_device rd;
+	std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> uni_dist(0, SHRT_MAX);
 
-	auto x0 = uni_dist(e1);
+	auto x0 = uni_dist(gen);
 	std::string str = std::to_string(pow(x0, 2));
 	trim_middle(str);
 
@@ -35,6 +35,11 @@ std::string unitGenerator::midSquareMethodInt()
 	}
 
 	return str;
+}
+
+std::string unitGenerator::midSquareMethodDouble()
+{
+	return std::string();
 }
 
 int unitGenerator::getN() {
