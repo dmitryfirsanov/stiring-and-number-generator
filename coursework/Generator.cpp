@@ -2,6 +2,8 @@
 #include <string>
 #include <cmath>
 #include <random>
+#include <sstream>
+#include <iomanip>
 
 unitGenerator::unitGenerator() : _n(5), _type(0), _method(0) {}
 
@@ -13,38 +15,54 @@ unitGenerator::unitGenerator(int n, int type, int method) {
 
 unitGenerator::~unitGenerator() {}
 
-std::string unitGenerator::midSquareMethodInt()
-{
+std::string unitGenerator::midSquareMethod() {
 	std::random_device rd;
 	std::default_random_engine gen(rd());
-	std::uniform_int_distribution<int> uni_dist(0, SHRT_MAX);
+	std::uniform_int_distribution<> uni_dist(0, pow(10, int (log10(getN()) + 2)));
 
 	auto x0 = uni_dist(gen);
-	std::string str = std::to_string(pow(x0, 2));
+	unsigned long long squared = pow(x0, 2);
+	std::string str = std::to_string(squared);
 	trim_middle(str);
 
-	while (str.find("0") == 0) {
+	while (str.find("0") == 0 && str.size() != 1) {
 		str.erase(0, 1);
 	}
-	if (str == "") {
-		str += "0";
-	}
 
-	while (stoi(str) > getN()) {
-		str = midSquareMethodInt();
+	while (stoull(str) > getN()) {
+		str = midSquareMethod();
 	}
-
 	return str;
 }
 
-std::string unitGenerator::midSquareMethodDouble()
-{
-	return std::string();
+std::string unitGenerator::midSquareMethodDouble() {
+	std::random_device rd;
+	std::mt19937_64 gen(rd()); 
+	std::uniform_int_distribution<> uni_dist(0, INT_MAX);
+
+	auto x0 = uni_dist(gen);
+	unsigned long long squared = pow(x0, 2);
+	std::string str = std::to_string(squared);
+	trim_middle(str);
+
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(getN()) << stoull(str) * pow(10, -int(log10(stoull(str)) + 1));
+	str = ss.str();
+	
+	while (str.rfind("0") == str.size() - 1 && getN() != 0) {
+		str.erase(str.rfind("0"), 1);
+	}
+
+	if (str.find(".") == str.size() - 1) {
+		str.erase(str.find("."), 1);
+	}
+	
+	return str;
 }
 
 int unitGenerator::getN() {
 	return _n;
-}
+}	
 
 int unitGenerator::getType() {
 	return _type;
@@ -54,8 +72,7 @@ int unitGenerator::getMethod() {
 	return _method;
 }
 
-std::string normalize(std::string &str)
-{
+std::string normalize(std::string &str) {
 	if (str.size() < 4) {
 		while (str.size() != 4) {
 			str.insert(0, "0");
@@ -67,9 +84,7 @@ std::string normalize(std::string &str)
 	return str;
 }
 
-std::string trim_middle(std::string &str)
-{
-	str.erase(str.rfind('.'), str.size() - 1);
+std::string trim_middle(std::string &str) {
 	normalize(str);
 	int size = ceil(str.size() / 4.0);
 	str.erase(0, size);

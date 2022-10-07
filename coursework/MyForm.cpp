@@ -21,7 +21,7 @@ System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::E
 	textBox2->Text = "";
 	int type = 0;
 	int method = 0;
-	int n = Convert::ToInt32(textBox1->Text->ToString());
+	int n = Convert::ToInt64(textBox1->Text->ToString());
 	if (radioButton4->Checked) //METHOD 1
 		method = 0;
 	else //METHOD 2
@@ -34,7 +34,7 @@ System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::E
 		type = 2;
 
 	unitGenerator Gen(n, type, method);
-	std::string result = Gen.midSquareMethodInt();
+	std::string result = Gen.midSquareMethodDouble();
 	String^ output = msclr::interop::marshal_as<String^>(result);
 	textBox2->Text = output;
 }
