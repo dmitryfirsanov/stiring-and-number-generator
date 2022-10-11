@@ -11,65 +11,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
-System::Void coursework::MyForm::textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
+// tab Unit of generated
+// button "Generate"
 
-System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::EventArgs^ e)
-{
+System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	textBox2->Text = "";
-	int type = 0;
-	int method = 0;
+
 	int n = Convert::ToInt64(textBox1->Text->ToString());
-	if (radioButton4->Checked) //METHOD 1
-		method = 0;
-	else //METHOD 2
-		method = 1;
-	if (radioButton1->Checked) // int
-		type = 0;
-	else if (radioButton2->Checked) // double
-		type = 1;
-	else if (radioButton3->Checked) // string
-		type = 2;
 
-	unitGenerator Gen(n, type, method);
-	std::string result = Gen.midSquareMethodString();
-	String^ output = msclr::interop::marshal_as<String^>(result);
+	int type;
+	for (int i = 0; i < groupBox1->Controls->Count; i++) {
+		RadioButton^ button = (RadioButton^)groupBox1->Controls[i];
+		if (button->Checked) type = i;
+	}
+
+	int method;
+	for (int i = 0; i < groupBox2->Controls->Count; i++) {
+		RadioButton^ button = (RadioButton^)groupBox2->Controls[i];
+		if (button->Checked) method = i;
+	}
+
+	unitGenerator object(n, type, method);
+	String^ output = Convert::ToString(object.ParkMillerGenerator());
 	textBox2->Text = output;
-}
-
-System::Void coursework::MyForm::radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::radioButton3_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::radioButton4_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::groupBox2_Enter(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::radioButton5_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
-}
-
-System::Void coursework::MyForm::groupBox1_Enter(System::Object^ sender, System::EventArgs^ e)
-{
-	return System::Void();
 }

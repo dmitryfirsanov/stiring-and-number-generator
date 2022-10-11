@@ -19,8 +19,10 @@ public:
     int getMethod();
 
     std::string midSquareMethod();
+    std::string midSquareMethodInt();
     std::string midSquareMethodDouble();
     std::string midSquareMethodString();
+    unsigned long long ParkMillerGenerator();
 };
 
 std::string normalize(std::string &);

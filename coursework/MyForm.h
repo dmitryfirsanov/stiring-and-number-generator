@@ -50,12 +50,19 @@ namespace coursework {
 	private: System::Windows::Forms::TextBox^ textBox2;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
-	private: System::Windows::Forms::GroupBox^ groupBox2;
-	private: System::Windows::Forms::RadioButton^ radioButton5;
-	private: System::Windows::Forms::RadioButton^ radioButton4;
+
+
+
 
 	private: System::Windows::Forms::TabPage^ tabPage1;
 	private: System::Windows::Forms::TabPage^ tabPage2;
+	private: System::Windows::Forms::GroupBox^ groupBox2;
+	private: System::Windows::Forms::RadioButton^ radioButton4;
+	private: System::Windows::Forms::RadioButton^ radioButton5;
+
+
+
+
 
 	private:
 		/// <summary>
@@ -73,9 +80,6 @@ namespace coursework {
 			System::Windows::Forms::TabControl^ tabControl1;
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->radioButton5 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
@@ -88,11 +92,14 @@ namespace coursework {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
+			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton5 = (gcnew System::Windows::Forms::RadioButton());
 			tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
-			this->groupBox2->SuspendLayout();
 			this->groupBox1->SuspendLayout();
+			this->groupBox2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
@@ -110,8 +117,8 @@ namespace coursework {
 			// tabPage1
 			// 
 			this->tabPage1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
-			this->tabPage1->Controls->Add(this->textBox2);
 			this->tabPage1->Controls->Add(this->groupBox2);
+			this->tabPage1->Controls->Add(this->textBox2);
 			this->tabPage1->Controls->Add(this->groupBox1);
 			this->tabPage1->Controls->Add(this->button1);
 			this->tabPage1->Controls->Add(this->label4);
@@ -137,46 +144,6 @@ namespace coursework {
 			this->textBox2->TabIndex = 15;
 			this->textBox2->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
-			// groupBox2
-			// 
-			this->groupBox2->Controls->Add(this->radioButton5);
-			this->groupBox2->Controls->Add(this->radioButton4);
-			this->groupBox2->Location = System::Drawing::Point(296, 177);
-			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(141, 122);
-			this->groupBox2->TabIndex = 17;
-			this->groupBox2->TabStop = false;
-			this->groupBox2->Enter += gcnew System::EventHandler(this, &MyForm::groupBox2_Enter);
-			// 
-			// radioButton5
-			// 
-			this->radioButton5->AutoSize = true;
-			this->radioButton5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->radioButton5->Location = System::Drawing::Point(6, 47);
-			this->radioButton5->Name = L"radioButton5";
-			this->radioButton5->Size = System::Drawing::Size(118, 24);
-			this->radioButton5->TabIndex = 1;
-			this->radioButton5->TabStop = true;
-			this->radioButton5->Text = L"METHOD 2";
-			this->radioButton5->UseVisualStyleBackColor = true;
-			this->radioButton5->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton5_CheckedChanged);
-			// 
-			// radioButton4
-			// 
-			this->radioButton4->AutoSize = true;
-			this->radioButton4->Checked = true;
-			this->radioButton4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->radioButton4->Location = System::Drawing::Point(6, 17);
-			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(115, 24);
-			this->radioButton4->TabIndex = 0;
-			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"Mid Square";
-			this->radioButton4->UseVisualStyleBackColor = true;
-			this->radioButton4->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton4_CheckedChanged);
-			// 
 			// groupBox1
 			// 
 			this->groupBox1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
@@ -189,7 +156,6 @@ namespace coursework {
 			this->groupBox1->Size = System::Drawing::Size(135, 122);
 			this->groupBox1->TabIndex = 16;
 			this->groupBox1->TabStop = false;
-			this->groupBox1->Enter += gcnew System::EventHandler(this, &MyForm::groupBox1_Enter);
 			// 
 			// radioButton1
 			// 
@@ -204,7 +170,6 @@ namespace coursework {
 			this->radioButton1->TabStop = true;
 			this->radioButton1->Text = L"INT";
 			this->radioButton1->UseVisualStyleBackColor = true;
-			this->radioButton1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton1_CheckedChanged);
 			// 
 			// radioButton2
 			// 
@@ -218,7 +183,6 @@ namespace coursework {
 			this->radioButton2->TabStop = true;
 			this->radioButton2->Text = L"DOUBLE";
 			this->radioButton2->UseVisualStyleBackColor = true;
-			this->radioButton2->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton2_CheckedChanged);
 			// 
 			// radioButton3
 			// 
@@ -232,7 +196,6 @@ namespace coursework {
 			this->radioButton3->TabStop = true;
 			this->radioButton3->Text = L"STRING";
 			this->radioButton3->UseVisualStyleBackColor = true;
-			this->radioButton3->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton3_CheckedChanged);
 			// 
 			// button1
 			// 
@@ -267,7 +230,6 @@ namespace coursework {
 			this->textBox1->TabIndex = 10;
 			this->textBox1->Text = L"5";
 			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			// 
 			// tabPage2
 			// 
@@ -303,6 +265,45 @@ namespace coursework {
 			this->label3->Size = System::Drawing::Size(0, 16);
 			this->label3->TabIndex = 5;
 			// 
+			// groupBox2
+			// 
+			this->groupBox2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
+			this->groupBox2->Controls->Add(this->radioButton4);
+			this->groupBox2->Controls->Add(this->radioButton5);
+			this->groupBox2->Cursor = System::Windows::Forms::Cursors::Arrow;
+			this->groupBox2->Location = System::Drawing::Point(302, 177);
+			this->groupBox2->Name = L"groupBox2";
+			this->groupBox2->Size = System::Drawing::Size(135, 122);
+			this->groupBox2->TabIndex = 17;
+			this->groupBox2->TabStop = false;
+			// 
+			// radioButton4
+			// 
+			this->radioButton4->AutoSize = true;
+			this->radioButton4->Checked = true;
+			this->radioButton4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->radioButton4->Location = System::Drawing::Point(6, 17);
+			this->radioButton4->Name = L"radioButton4";
+			this->radioButton4->Size = System::Drawing::Size(134, 29);
+			this->radioButton4->TabIndex = 12;
+			this->radioButton4->TabStop = true;
+			this->radioButton4->Text = L"Mid Square";
+			this->radioButton4->UseVisualStyleBackColor = true;
+			// 
+			// radioButton5
+			// 
+			this->radioButton5->AutoSize = true;
+			this->radioButton5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->radioButton5->Location = System::Drawing::Point(6, 52);
+			this->radioButton5->Name = L"radioButton5";
+			this->radioButton5->Size = System::Drawing::Size(126, 29);
+			this->radioButton5->TabIndex = 13;
+			this->radioButton5->TabStop = true;
+			this->radioButton5->Text = L"Park-Miller";
+			this->radioButton5->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(120, 120);
@@ -318,23 +319,16 @@ namespace coursework {
 			tabControl1->ResumeLayout(false);
 			this->tabPage1->ResumeLayout(false);
 			this->tabPage1->PerformLayout();
-			this->groupBox2->ResumeLayout(false);
-			this->groupBox2->PerformLayout();
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
+			this->groupBox2->ResumeLayout(false);
+			this->groupBox2->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void radioButton1_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void radioButton3_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void radioButton4_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void radioButton5_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void groupBox1_Enter(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void groupBox2_Enter(System::Object^ sender, System::EventArgs^ e);
+	private: 
+		System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
