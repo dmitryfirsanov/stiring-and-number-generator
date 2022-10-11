@@ -22,11 +22,14 @@ public:
     std::string midSquareMethodInt();
     std::string midSquareMethodDouble();
     std::string midSquareMethodString();
-    unsigned long long ParkMillerGenerator();
+    std::string ParkMillerGenerator();
+
+    std::string normalizeMidSquareMethod(std::string&);
+    std::string normalizeDouble(std::string&);
+    std::string trim_middle(std::string&);
+
+    std::string getRandomValueMidSquare(unsigned long long);
+    unsigned long long getRandomValueParkMiller();
+    const std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 };
-
-std::string normalize(std::string &);
-std::string trim_middle(std::string &);
-std::string getRandomValue(unsigned long long);
-
 // в последующем создать класс arrayGenerator наследуемый unitGenerator

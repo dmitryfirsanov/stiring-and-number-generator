@@ -32,6 +32,6 @@ System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::E
 	}
 
 	unitGenerator object(n, type, method);
-	String^ output = Convert::ToString(object.ParkMillerGenerator());
+	String^ output = msclr::interop::marshal_as<String^>(object.ParkMillerGenerator());
 	textBox2->Text = output;
 }

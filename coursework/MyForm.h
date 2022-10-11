@@ -78,7 +78,11 @@ namespace coursework {
 		void InitializeComponent(void)
 		{
 			System::Windows::Forms::TabControl^ tabControl1;
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton5 = (gcnew System::Windows::Forms::RadioButton());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
@@ -92,14 +96,11 @@ namespace coursework {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
-			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->radioButton4 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton5 = (gcnew System::Windows::Forms::RadioButton());
 			tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
-			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
+			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
@@ -132,6 +133,48 @@ namespace coursework {
 			this->tabPage1->Text = L"Unit of generated";
 			this->tabPage1->UseVisualStyleBackColor = true;
 			// 
+			// groupBox2
+			// 
+			this->groupBox2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
+			this->groupBox2->Controls->Add(this->radioButton4);
+			this->groupBox2->Controls->Add(this->radioButton5);
+			this->groupBox2->Cursor = System::Windows::Forms::Cursors::Arrow;
+			this->groupBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->groupBox2->Location = System::Drawing::Point(302, 177);
+			this->groupBox2->Name = L"groupBox2";
+			this->groupBox2->Size = System::Drawing::Size(135, 122);
+			this->groupBox2->TabIndex = 17;
+			this->groupBox2->TabStop = false;
+			this->groupBox2->Text = L"Method";
+			// 
+			// radioButton4
+			// 
+			this->radioButton4->AutoSize = true;
+			this->radioButton4->Checked = true;
+			this->radioButton4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->radioButton4->Location = System::Drawing::Point(6, 26);
+			this->radioButton4->Name = L"radioButton4";
+			this->radioButton4->Size = System::Drawing::Size(122, 26);
+			this->radioButton4->TabIndex = 12;
+			this->radioButton4->TabStop = true;
+			this->radioButton4->Text = L"Mid Square";
+			this->radioButton4->UseVisualStyleBackColor = true;
+			// 
+			// radioButton5
+			// 
+			this->radioButton5->AutoSize = true;
+			this->radioButton5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->radioButton5->Location = System::Drawing::Point(6, 54);
+			this->radioButton5->Name = L"radioButton5";
+			this->radioButton5->Size = System::Drawing::Size(116, 26);
+			this->radioButton5->TabIndex = 13;
+			this->radioButton5->TabStop = true;
+			this->radioButton5->Text = L"Park-Miller";
+			this->radioButton5->UseVisualStyleBackColor = true;
+			// 
 			// textBox2
 			// 
 			this->textBox2->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
@@ -151,11 +194,14 @@ namespace coursework {
 			this->groupBox1->Controls->Add(this->radioButton2);
 			this->groupBox1->Controls->Add(this->radioButton3);
 			this->groupBox1->Cursor = System::Windows::Forms::Cursors::Arrow;
+			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
 			this->groupBox1->Location = System::Drawing::Point(155, 177);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Size = System::Drawing::Size(135, 122);
 			this->groupBox1->TabIndex = 16;
 			this->groupBox1->TabStop = false;
+			this->groupBox1->Text = L"Type";
 			// 
 			// radioButton1
 			// 
@@ -163,12 +209,12 @@ namespace coursework {
 			this->radioButton1->Checked = true;
 			this->radioButton1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButton1->Location = System::Drawing::Point(6, 17);
+			this->radioButton1->Location = System::Drawing::Point(6, 26);
 			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(65, 29);
+			this->radioButton1->Size = System::Drawing::Size(53, 29);
 			this->radioButton1->TabIndex = 12;
 			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"INT";
+			this->radioButton1->Text = L"int";
 			this->radioButton1->UseVisualStyleBackColor = true;
 			// 
 			// radioButton2
@@ -178,10 +224,10 @@ namespace coursework {
 				static_cast<System::Byte>(204)));
 			this->radioButton2->Location = System::Drawing::Point(6, 52);
 			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(114, 29);
+			this->radioButton2->Size = System::Drawing::Size(92, 29);
 			this->radioButton2->TabIndex = 13;
 			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"DOUBLE";
+			this->radioButton2->Text = L"double";
 			this->radioButton2->UseVisualStyleBackColor = true;
 			// 
 			// radioButton3
@@ -189,12 +235,12 @@ namespace coursework {
 			this->radioButton3->AutoSize = true;
 			this->radioButton3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButton3->Location = System::Drawing::Point(6, 87);
+			this->radioButton3->Location = System::Drawing::Point(6, 78);
 			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(107, 29);
+			this->radioButton3->Size = System::Drawing::Size(80, 29);
 			this->radioButton3->TabIndex = 14;
 			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"STRING";
+			this->radioButton3->Text = L"string";
 			this->radioButton3->UseVisualStyleBackColor = true;
 			// 
 			// button1
@@ -265,45 +311,6 @@ namespace coursework {
 			this->label3->Size = System::Drawing::Size(0, 16);
 			this->label3->TabIndex = 5;
 			// 
-			// groupBox2
-			// 
-			this->groupBox2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
-			this->groupBox2->Controls->Add(this->radioButton4);
-			this->groupBox2->Controls->Add(this->radioButton5);
-			this->groupBox2->Cursor = System::Windows::Forms::Cursors::Arrow;
-			this->groupBox2->Location = System::Drawing::Point(302, 177);
-			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(135, 122);
-			this->groupBox2->TabIndex = 17;
-			this->groupBox2->TabStop = false;
-			// 
-			// radioButton4
-			// 
-			this->radioButton4->AutoSize = true;
-			this->radioButton4->Checked = true;
-			this->radioButton4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->radioButton4->Location = System::Drawing::Point(6, 17);
-			this->radioButton4->Name = L"radioButton4";
-			this->radioButton4->Size = System::Drawing::Size(134, 29);
-			this->radioButton4->TabIndex = 12;
-			this->radioButton4->TabStop = true;
-			this->radioButton4->Text = L"Mid Square";
-			this->radioButton4->UseVisualStyleBackColor = true;
-			// 
-			// radioButton5
-			// 
-			this->radioButton5->AutoSize = true;
-			this->radioButton5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->radioButton5->Location = System::Drawing::Point(6, 52);
-			this->radioButton5->Name = L"radioButton5";
-			this->radioButton5->Size = System::Drawing::Size(126, 29);
-			this->radioButton5->TabIndex = 13;
-			this->radioButton5->TabStop = true;
-			this->radioButton5->Text = L"Park-Miller";
-			this->radioButton5->UseVisualStyleBackColor = true;
-			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(120, 120);
@@ -313,16 +320,18 @@ namespace coursework {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"MyForm";
 			tabControl1->ResumeLayout(false);
 			this->tabPage1->ResumeLayout(false);
 			this->tabPage1->PerformLayout();
-			this->groupBox1->ResumeLayout(false);
-			this->groupBox1->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox2->PerformLayout();
+			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
