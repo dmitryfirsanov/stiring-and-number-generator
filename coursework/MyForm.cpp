@@ -34,7 +34,7 @@ System::Void coursework::MyForm::button1_Click(System::Object^ sender, System::E
 		type = 2;
 
 	unitGenerator Gen(n, type, method);
-	std::string result = Gen.midSquareMethodDouble();
+	std::string result = Gen.midSquareMethodString();
 	String^ output = msclr::interop::marshal_as<String^>(result);
 	textBox2->Text = output;
 }

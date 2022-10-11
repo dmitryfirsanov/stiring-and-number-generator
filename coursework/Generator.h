@@ -14,15 +14,17 @@ public:
     unitGenerator(int n, int type, int method);
     ~unitGenerator();
 
-    std::string midSquareMethod();
-    std::string midSquareMethodDouble();
-
     int getN();
     int getType();
     int getMethod();
+
+    std::string midSquareMethod();
+    std::string midSquareMethodDouble();
+    std::string midSquareMethodString();
 };
 
-std::string normalize(std::string &str);
-std::string trim_middle(std::string &str);
+std::string normalize(std::string &);
+std::string trim_middle(std::string &);
+std::string getRandomValue(unsigned long long);
 
 // в последующем создать класс arrayGenerator наследуемый unitGenerator

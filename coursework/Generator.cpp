@@ -4,6 +4,7 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <regex>
 
 unitGenerator::unitGenerator() : _n(5), _type(0), _method(0) {}
 
@@ -14,6 +15,18 @@ unitGenerator::unitGenerator(int n, int type, int method) {
 }
 
 unitGenerator::~unitGenerator() {}
+
+int unitGenerator::getN() {
+	return _n;
+}
+
+int unitGenerator::getType() {
+	return _type;
+}
+
+int unitGenerator::getMethod() {
+	return _method;
+}
 
 std::string unitGenerator::midSquareMethod() {
 	std::random_device rd;
@@ -60,17 +73,22 @@ std::string unitGenerator::midSquareMethodDouble() {
 	return str;
 }
 
-int unitGenerator::getN() {
-	return _n;
-}	
+std::string unitGenerator::midSquareMethodString()
+{
+	std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+	std::string result;
 
-int unitGenerator::getType() {
-	return _type;
+	for (int i = 0; i < getN(); i++) {
+		std::string randomValue = getRandomValue(pow(10, 4));
+		while (stoull(randomValue) > latinAlphabet.size() - 1) {
+			randomValue = getRandomValue(pow(10, 4));
+		}
+		result += latinAlphabet[stoi(randomValue)];
+	}
+
+	return result;
 }
 
-int unitGenerator::getMethod() {
-	return _method;
-}
 
 std::string normalize(std::string &str) {
 	if (str.size() < 4) {
@@ -90,4 +108,17 @@ std::string trim_middle(std::string &str) {
 	str.erase(0, size);
 	str.erase(str.size() - size, size);
 	return str;
+}
+
+std::string getRandomValue(unsigned long long max)
+{
+	std::random_device rd;
+	std::default_random_engine gen(rd());
+	std::uniform_int_distribution<> uni_dist(0, max);
+
+	auto x0 = uni_dist(gen);
+	unsigned long long squared = pow(x0, 2);
+	std::string randomValue = std::to_string(squared);
+	trim_middle(randomValue);
+	return randomValue;
 }

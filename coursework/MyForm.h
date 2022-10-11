@@ -262,9 +262,8 @@ namespace coursework {
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->textBox1->Location = System::Drawing::Point(261, 142);
-			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(73, 29);
+			this->textBox1->Size = System::Drawing::Size(73, 27);
 			this->textBox1->TabIndex = 10;
 			this->textBox1->Text = L"5";
 			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
