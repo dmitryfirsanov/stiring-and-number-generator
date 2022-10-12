@@ -28,7 +28,7 @@ public:
     std::string normalizeDouble(std::string&);
     std::string trim_middle(std::string&);
 
-    std::string getRandomValueMidSquare(unsigned long long);
+    std::string getRandomValueMidSquare();
     unsigned long long getRandomValueParkMiller();
 };
 // в последующем создать класс arrayGenerator наследуемый unitGenerator

@@ -52,18 +52,18 @@ std::string unitGenerator::midSquareMethod() {
 
 	switch (getType()) {
 	case 0:
-		randomValue = getRandomValueMidSquare(pow(10, int(log10(getN()) + 2)));
+		randomValue = getRandomValueMidSquare();
 		result = std::to_string(stoull(randomValue) % (getN() + 1));
 		break;
 	case 1:
-		randomValue = getRandomValueMidSquare(INT_MAX);
+		randomValue = getRandomValueMidSquare();
 		ss << std::fixed << std::setprecision(getN()) << stoull(randomValue) * pow(10, -int(log10(stoull(randomValue)) + 1));
 		result = ss.str();
 		normalizeDouble(result);
 		break;
 	case 2:
 		for (int i = 0; i < getN(); i++) {
-			std::string randomValue = getRandomValueMidSquare(INT_MAX);
+			std::string randomValue = getRandomValueMidSquare();
 			result += _latinAlphabet[stoull(randomValue) % _latinAlphabet.size()];
 		}
 		break;
@@ -137,10 +137,10 @@ std::string unitGenerator::trim_middle(std::string &str) {
 	return str;
 }
 
-std::string unitGenerator::getRandomValueMidSquare(unsigned long long max) {
+std::string unitGenerator::getRandomValueMidSquare() {
 	std::random_device rd;
 	std::default_random_engine gen(rd());
-	std::uniform_int_distribution<> uni_dist(0, max);
+	std::uniform_int_distribution<> uni_dist(0, INT_MAX);
 
 	auto x0 = uni_dist(gen);
 	unsigned long long squared = pow(x0, 2);
