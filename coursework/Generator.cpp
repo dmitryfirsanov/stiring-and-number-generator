@@ -5,29 +5,29 @@
 #include <sstream>
 #include <iomanip>
 
-unitGenerator::unitGenerator() : _n(5), _type(0), _method(0) {}
+Generator::Generator() : _n(5), _type(0), _method(0) {}
 
-unitGenerator::unitGenerator(int n, int type, int method) {
+Generator::Generator(int n, int type, int method) {
 	_n = n;
 	_type = type;
 	_method = method;
 }
 
-unitGenerator::~unitGenerator() {}
+Generator::~Generator() {}
 
-int unitGenerator::getN() {
+int Generator::getN() {
 	return _n;
 }
 
-int unitGenerator::getType() {
+int Generator::getType() {
 	return _type;
 }
 
-int unitGenerator::getMethod() {
+int Generator::getMethod() {
 	return _method;
 }
 
-std::string unitGenerator::Generate()
+std::string Generator::Generate()
 {
 	std::string result;
 
@@ -45,7 +45,7 @@ std::string unitGenerator::Generate()
 	return result;
 }
 
-std::string unitGenerator::midSquareMethod() {
+std::string Generator::midSquareMethod() {
 	std::string randomValue;
 	std::stringstream ss;
 	std::string result;
@@ -74,7 +74,7 @@ std::string unitGenerator::midSquareMethod() {
 	return result;
 }
 
-std::string unitGenerator::ParkMillerGenerator() {
+std::string Generator::ParkMillerGenerator() {
 	unsigned randomValue;
 	std::stringstream ss;
 	std::string result;
@@ -103,7 +103,7 @@ std::string unitGenerator::ParkMillerGenerator() {
 	return result;
 }
 
-std::string unitGenerator::normalizeMidSquareMethod(std::string &str) {
+std::string Generator::normalizeMidSquareMethod(std::string &str) {
 	if (str.size() < 4) {
 		while (str.size() != 4) {
 			str.insert(0, "0");
@@ -116,7 +116,7 @@ std::string unitGenerator::normalizeMidSquareMethod(std::string &str) {
 	return str;
 }
 
-std::string unitGenerator::normalizeDouble(std::string& str) {
+std::string Generator::normalizeDouble(std::string& str) {
 	while (str.rfind("0") == str.size() - 1 && getN() != 0) {
 		str.erase(str.rfind("0"), 1);
 	}
@@ -128,7 +128,7 @@ std::string unitGenerator::normalizeDouble(std::string& str) {
 	return str;
 };
 
-std::string unitGenerator::trim_middle(std::string &str) {
+std::string Generator::trim_middle(std::string &str) {
 	normalizeMidSquareMethod(str);
 	int size = ceil(str.size() / 4.0);
 	str.erase(0, size);
@@ -137,7 +137,7 @@ std::string unitGenerator::trim_middle(std::string &str) {
 	return str;
 }
 
-std::string unitGenerator::getRandomValueMidSquare() {
+std::string Generator::getRandomValueMidSquare() {
 	std::random_device rd;
 	std::default_random_engine gen(rd());
 	std::uniform_int_distribution<> uni_dist(0, INT_MAX);
@@ -150,7 +150,7 @@ std::string unitGenerator::getRandomValueMidSquare() {
 	return randomValue;
 }
 
-unsigned long long unitGenerator::getRandomValueParkMiller() {
+unsigned long long Generator::getRandomValueParkMiller() {
 	const int a = 16807;
 	const int q = 12773;
 	const int r = 2836;

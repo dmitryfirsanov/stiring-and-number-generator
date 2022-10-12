@@ -3,7 +3,7 @@
 #include "MyForm.h"
 #include <string>
 using namespace coursework;
-class unitGenerator
+class Generator
 {
 private:
     int _n;
@@ -11,9 +11,9 @@ private:
     int _method;
     const std::string _latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 public:
-    unitGenerator();
-    unitGenerator(int n, int type, int method);
-    ~unitGenerator();
+    Generator();
+    Generator(int n, int type, int method);
+    ~Generator();
 
     int getN();
     int getType();
@@ -31,4 +31,3 @@ public:
     std::string getRandomValueMidSquare();
     unsigned long long getRandomValueParkMiller();
 };
-// в последующем создать класс arrayGenerator наследуемый unitGenerator

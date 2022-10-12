@@ -37,7 +37,7 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	}
 
 	String^ output = "";
-	unitGenerator object(n, type, method);
+	Generator object(n, type, method);
 
 	if (ArrayOfGenerating->Checked) {
 		int size;
