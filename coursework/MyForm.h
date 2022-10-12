@@ -35,7 +35,9 @@ namespace coursework {
 			}
 		}
 	private: System::Windows::Forms::Button^ buttonGenerate;
-	private: System::Windows::Forms::TextBox^ textBoxInputN;
+	private: System::Windows::Forms::TextBox^ inputMax;
+
+
 	protected:
 
 	protected:
@@ -50,19 +52,26 @@ namespace coursework {
 	private: System::Windows::Forms::RadioButton^ radioButtonInt;
 	private: System::Windows::Forms::RadioButton^ radioButtonDouble;
 	private: System::Windows::Forms::RadioButton^ radioButtonString;
+	private: System::Windows::Forms::TextBox^ Output;
 
 
 
 
-	private: System::Windows::Forms::TextBox^ textBoxOutput;
+
 	private: System::Windows::Forms::GroupBox^ groupBoxTypes;
 
 
 
-	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
+
 	private: System::Windows::Forms::GroupBox^ groupBoxMethods;
 	private: System::Windows::Forms::RadioButton^ radioButtonMS;
 	private: System::Windows::Forms::RadioButton^ radioButtonPM;
+	private: System::Windows::Forms::CheckBox^ ArrayOfGenerating;
+	private: System::Windows::Forms::Label^ sizeArray;
+	private: System::Windows::Forms::TextBox^ inputSizeArray;
+
+
+
 
 
 
@@ -94,15 +103,17 @@ namespace coursework {
 			this->groupBoxMethods = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButtonMS = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonPM = (gcnew System::Windows::Forms::RadioButton());
-			this->textBoxOutput = (gcnew System::Windows::Forms::TextBox());
+			this->Output = (gcnew System::Windows::Forms::TextBox());
 			this->groupBoxTypes = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButtonInt = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonDouble = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonString = (gcnew System::Windows::Forms::RadioButton());
 			this->buttonGenerate = (gcnew System::Windows::Forms::Button());
 			this->N = (gcnew System::Windows::Forms::Label());
-			this->textBoxInputN = (gcnew System::Windows::Forms::TextBox());
-			this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
+			this->inputMax = (gcnew System::Windows::Forms::TextBox());
+			this->ArrayOfGenerating = (gcnew System::Windows::Forms::CheckBox());
+			this->sizeArray = (gcnew System::Windows::Forms::Label());
+			this->inputSizeArray = (gcnew System::Windows::Forms::TextBox());
 			this->groupBoxMethods->SuspendLayout();
 			this->groupBoxTypes->SuspendLayout();
 			this->SuspendLayout();
@@ -115,7 +126,7 @@ namespace coursework {
 			this->groupBoxMethods->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->groupBoxMethods->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->groupBoxMethods->Location = System::Drawing::Point(376, 159);
+			this->groupBoxMethods->Location = System::Drawing::Point(376, 68);
 			this->groupBoxMethods->Margin = System::Windows::Forms::Padding(2);
 			this->groupBoxMethods->Name = L"groupBoxMethods";
 			this->groupBoxMethods->Padding = System::Windows::Forms::Padding(2);
@@ -153,18 +164,20 @@ namespace coursework {
 			this->radioButtonPM->Text = L"Park-Miller";
 			this->radioButtonPM->UseVisualStyleBackColor = true;
 			// 
-			// textBoxOutput
+			// Output
 			// 
-			this->textBoxOutput->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->textBoxOutput->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Output->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->Output->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBoxOutput->Location = System::Drawing::Point(122, 60);
-			this->textBoxOutput->Margin = System::Windows::Forms::Padding(2);
-			this->textBoxOutput->Name = L"textBoxOutput";
-			this->textBoxOutput->ReadOnly = true;
-			this->textBoxOutput->Size = System::Drawing::Size(507, 32);
-			this->textBoxOutput->TabIndex = 15;
-			this->textBoxOutput->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->Output->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->Output->Location = System::Drawing::Point(11, 29);
+			this->Output->Margin = System::Windows::Forms::Padding(2);
+			this->Output->Multiline = true;
+			this->Output->Name = L"Output";
+			this->Output->ReadOnly = true;
+			this->Output->Size = System::Drawing::Size(230, 231);
+			this->Output->TabIndex = 15;
+			this->Output->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// groupBoxTypes
 			// 
@@ -175,7 +188,7 @@ namespace coursework {
 			this->groupBoxTypes->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->groupBoxTypes->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->groupBoxTypes->Location = System::Drawing::Point(258, 159);
+			this->groupBoxTypes->Location = System::Drawing::Point(264, 68);
 			this->groupBoxTypes->Margin = System::Windows::Forms::Padding(2);
 			this->groupBoxTypes->Name = L"groupBoxTypes";
 			this->groupBoxTypes->Padding = System::Windows::Forms::Padding(2);
@@ -231,10 +244,10 @@ namespace coursework {
 			// 
 			this->buttonGenerate->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->buttonGenerate->Location = System::Drawing::Point(258, 276);
+			this->buttonGenerate->Location = System::Drawing::Point(11, 274);
 			this->buttonGenerate->Margin = System::Windows::Forms::Padding(2);
 			this->buttonGenerate->Name = L"buttonGenerate";
-			this->buttonGenerate->Size = System::Drawing::Size(226, 54);
+			this->buttonGenerate->Size = System::Drawing::Size(473, 54);
 			this->buttonGenerate->TabIndex = 9;
 			this->buttonGenerate->Text = L"Generate";
 			this->buttonGenerate->UseVisualStyleBackColor = true;
@@ -245,37 +258,81 @@ namespace coursework {
 			this->N->AutoSize = true;
 			this->N->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->N->Location = System::Drawing::Point(298, 118);
+			this->N->Location = System::Drawing::Point(283, 39);
 			this->N->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->N->Name = L"N";
-			this->N->Size = System::Drawing::Size(31, 24);
+			this->N->Size = System::Drawing::Size(55, 24);
 			this->N->TabIndex = 11;
-			this->N->Text = L"N:";
+			this->N->Text = L"max:";
 			// 
-			// textBoxInputN
+			// inputMax
 			// 
-			this->textBoxInputN->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->inputMax->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->inputMax->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBoxInputN->Location = System::Drawing::Point(341, 118);
-			this->textBoxInputN->Margin = System::Windows::Forms::Padding(2);
-			this->textBoxInputN->Name = L"textBoxInputN";
-			this->textBoxInputN->Size = System::Drawing::Size(59, 23);
-			this->textBoxInputN->TabIndex = 10;
-			this->textBoxInputN->Text = L"5";
-			this->textBoxInputN->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->inputMax->Location = System::Drawing::Point(342, 39);
+			this->inputMax->Margin = System::Windows::Forms::Padding(2);
+			this->inputMax->Name = L"inputMax";
+			this->inputMax->Size = System::Drawing::Size(79, 23);
+			this->inputMax->TabIndex = 10;
+			this->inputMax->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			// 
+			// ArrayOfGenerating
+			// 
+			this->ArrayOfGenerating->AutoSize = true;
+			this->ArrayOfGenerating->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->ArrayOfGenerating->Location = System::Drawing::Point(342, 171);
+			this->ArrayOfGenerating->Name = L"ArrayOfGenerating";
+			this->ArrayOfGenerating->Size = System::Drawing::Size(65, 24);
+			this->ArrayOfGenerating->TabIndex = 18;
+			this->ArrayOfGenerating->Text = L"Array";
+			this->ArrayOfGenerating->UseVisualStyleBackColor = true;
+			this->ArrayOfGenerating->CheckedChanged += gcnew System::EventHandler(this, &MyForm::ArrayOfGenerating_CheckedChanged);
+			// 
+			// sizeArray
+			// 
+			this->sizeArray->AutoSize = true;
+			this->sizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->sizeArray->Location = System::Drawing::Point(285, 198);
+			this->sizeArray->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->sizeArray->Name = L"sizeArray";
+			this->sizeArray->Size = System::Drawing::Size(53, 24);
+			this->sizeArray->TabIndex = 19;
+			this->sizeArray->Text = L"size:";
+			this->sizeArray->Visible = false;
+			// 
+			// inputSizeArray
+			// 
+			this->inputSizeArray->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->inputSizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->inputSizeArray->Location = System::Drawing::Point(342, 200);
+			this->inputSizeArray->Margin = System::Windows::Forms::Padding(2);
+			this->inputSizeArray->Name = L"inputSizeArray";
+			this->inputSizeArray->Size = System::Drawing::Size(79, 23);
+			this->inputSizeArray->TabIndex = 20;
+			this->inputSizeArray->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->inputSizeArray->Visible = false;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
-			this->ClientSize = System::Drawing::Size(739, 442);
+			this->ClientSize = System::Drawing::Size(496, 368);
+			this->Controls->Add(this->inputSizeArray);
+			this->Controls->Add(this->sizeArray);
+			this->Controls->Add(this->ArrayOfGenerating);
 			this->Controls->Add(this->groupBoxMethods);
-			this->Controls->Add(this->textBoxOutput);
+			this->Controls->Add(this->Output);
 			this->Controls->Add(this->groupBoxTypes);
 			this->Controls->Add(this->buttonGenerate);
 			this->Controls->Add(this->N);
-			this->Controls->Add(this->textBoxInputN);
+			this->Controls->Add(this->inputMax);
 			this->DoubleBuffered = true;
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+			this->HelpButton = true;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Margin = System::Windows::Forms::Padding(2);
 			this->MaximizeBox = false;
@@ -293,5 +350,6 @@ namespace coursework {
 #pragma endregion
 	private: 
 		System::Void buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void ArrayOfGenerating_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 }
