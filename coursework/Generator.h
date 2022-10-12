@@ -9,6 +9,7 @@ private:
     int _n;
     int _type;
     int _method;
+    const std::string _latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 public:
     unitGenerator();
     unitGenerator(int n, int type, int method);
@@ -18,10 +19,9 @@ public:
     int getType();
     int getMethod();
 
+    std::string Generate();
+
     std::string midSquareMethod();
-    std::string midSquareMethodInt();
-    std::string midSquareMethodDouble();
-    std::string midSquareMethodString();
     std::string ParkMillerGenerator();
 
     std::string normalizeMidSquareMethod(std::string&);
@@ -30,6 +30,5 @@ public:
 
     std::string getRandomValueMidSquare(unsigned long long);
     unsigned long long getRandomValueParkMiller();
-    const std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 };
 // в последующем создать класс arrayGenerator наследуемый unitGenerator

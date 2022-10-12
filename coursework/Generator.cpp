@@ -27,74 +27,59 @@ int unitGenerator::getMethod() {
 	return _method;
 }
 
-std::string unitGenerator::midSquareMethod()
+std::string unitGenerator::Generate()
 {
 	std::string result;
-	switch (getType())
-	{
+
+	switch (getMethod()) {
 	case 0:
-		result = midSquareMethodInt();
+		result = midSquareMethod();
 		break;
 	case 1:
-		result = midSquareMethodDouble();
-		break;
-	case 2:
-		result = midSquareMethodString();
+		result = ParkMillerGenerator();
 		break;
 	default:
 		break;
 	}
+
 	return result;
 }
 
-std::string unitGenerator::midSquareMethodInt() {
-	std::string result = getRandomValueMidSquare(pow(10, int(log10(getN()) + 2)));
-
-	while (result.find("0") == 0 && result.size() != 1) {
-		result.erase(0, 1);
-	}
-
-	while (stoull(result) > getN()) {
-		result = midSquareMethodInt();
-	}
-	return result;
-}
-
-std::string unitGenerator::midSquareMethodDouble() {
-	std::string randomValue = getRandomValueMidSquare(INT_MAX);
-
+std::string unitGenerator::midSquareMethod() {
+	std::string randomValue;
 	std::stringstream ss;
-	ss << std::fixed << std::setprecision(getN()) << stoull(randomValue) * pow(10, -int(log10(stoull(randomValue)) + 1));
-	std::string result = ss.str();
-	
-	normalizeDouble(result);
-	
-	return result;
-}
-
-std::string unitGenerator::midSquareMethodString()
-{
 	std::string result;
 
-	for (int i = 0; i < getN(); i++) {
-		std::string randomValue = getRandomValueMidSquare(pow(10, 4));
-		while (stoull(randomValue) > latinAlphabet.size() - 1) {
-			randomValue = getRandomValueMidSquare(pow(10, 4));
+	switch (getType()) {
+	case 0:
+		randomValue = getRandomValueMidSquare(pow(10, int(log10(getN()) + 2)));
+		result = std::to_string(stoull(randomValue) % (getN() + 1));
+		break;
+	case 1:
+		randomValue = getRandomValueMidSquare(INT_MAX);
+		ss << std::fixed << std::setprecision(getN()) << stoull(randomValue) * pow(10, -int(log10(stoull(randomValue)) + 1));
+		result = ss.str();
+		normalizeDouble(result);
+		break;
+	case 2:
+		for (int i = 0; i < getN(); i++) {
+			std::string randomValue = getRandomValueMidSquare(INT_MAX);
+			result += _latinAlphabet[stoull(randomValue) % _latinAlphabet.size()];
 		}
-		result += latinAlphabet[stoi(randomValue)];
+		break;
+	default:
+		break;
 	}
 
 	return result;
 }
 
-std::string unitGenerator::ParkMillerGenerator()
-{
+std::string unitGenerator::ParkMillerGenerator() {
 	unsigned randomValue;
-	std::string result;
 	std::stringstream ss;
+	std::string result;
 	
-	switch (getType())
-	{
+	switch (getType()) {
 	case 0: // int
 		randomValue = getRandomValueParkMiller() % (getN() + 1);
 		result = std::to_string(randomValue);
@@ -107,16 +92,16 @@ std::string unitGenerator::ParkMillerGenerator()
 		break;
 	case 2: // string
 		for (int i = 0; i < getN(); i++) {
-			randomValue = getRandomValueParkMiller() % latinAlphabet.size();
-			result += latinAlphabet[randomValue];
+			randomValue = getRandomValueParkMiller() % _latinAlphabet.size();
+			result += _latinAlphabet[randomValue];
 		}
 		break;
 	default:
 		break;
 	}
+
 	return result;
 }
-
 
 std::string unitGenerator::normalizeMidSquareMethod(std::string &str) {
 	if (str.size() < 4) {
@@ -127,6 +112,7 @@ std::string unitGenerator::normalizeMidSquareMethod(std::string &str) {
 	else if (str.size() % 2 == 1) {
 		str.insert(0, "0");
 	}
+
 	return str;
 }
 
@@ -147,11 +133,11 @@ std::string unitGenerator::trim_middle(std::string &str) {
 	int size = ceil(str.size() / 4.0);
 	str.erase(0, size);
 	str.erase(str.size() - size, size);
+
 	return str;
 }
 
-std::string unitGenerator::getRandomValueMidSquare(unsigned long long max)
-{
+std::string unitGenerator::getRandomValueMidSquare(unsigned long long max) {
 	std::random_device rd;
 	std::default_random_engine gen(rd());
 	std::uniform_int_distribution<> uni_dist(0, max);
@@ -160,11 +146,11 @@ std::string unitGenerator::getRandomValueMidSquare(unsigned long long max)
 	unsigned long long squared = pow(x0, 2);
 	std::string randomValue = std::to_string(squared);
 	trim_middle(randomValue);
+
 	return randomValue;
 }
 
-unsigned long long unitGenerator::getRandomValueParkMiller()
-{
+unsigned long long unitGenerator::getRandomValueParkMiller() {
 	const int a = 16807;
 	const int q = 12773;
 	const int r = 2836;
