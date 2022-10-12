@@ -12,14 +12,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 }
 
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) {
-	textBoxOutput->Text = "";
+	Output->Text = "";
 
 	int n;
+
 	try {
-		n = Convert::ToInt64(textBoxInputN->Text);		
+		n = Convert::ToInt64(inputMax->Text);
 	}
 	catch (Exception^ e) {
-		MessageBox::Show("¬ведите N!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show("¬ведите max!", "Error Max", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
 
@@ -35,7 +36,40 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		if (button->Checked) method = i;
 	}
 
+	String^ output = "";
 	unitGenerator object(n, type, method);
-	String^ output = msclr::interop::marshal_as<String^>(object.Generate());
-	textBoxOutput->Text = output;
+
+	if (ArrayOfGenerating->Checked) {
+		int size;
+
+		try {
+			size = Convert::ToInt64(inputSizeArray->Text);
+		}
+		catch (Exception^ e) {
+			MessageBox::Show("¬ведите size!", "Error Size", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+
+		for (int i = 0; i < size; i++) {	
+			output += msclr::interop::marshal_as<String^>(object.Generate());
+			output += " ";
+		}
+	}
+	else {
+		output = msclr::interop::marshal_as<String^>(object.Generate());
+	}
+
+	Output->Text = output;
+}
+
+System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	if (ArrayOfGenerating->Checked) {
+		sizeArray->Visible = true;
+		inputSizeArray->Visible = true;
+	}
+	else {
+		sizeArray->Visible = false;
+		inputSizeArray->Visible = false;
+	}
 }
