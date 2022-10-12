@@ -14,7 +14,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) {
 	textBoxOutput->Text = "";
 
-	int n = Convert::ToInt64(textBoxInputN->Text->ToString());
+	int n;
+	try {
+		n = Convert::ToInt64(textBoxInputN->Text);		
+	}
+	catch (Exception^ e) {
+		MessageBox::Show("¬ведите N!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
 
 	int type;
 	for (int i = 0; i < groupBoxTypes->Controls->Count; i++) {

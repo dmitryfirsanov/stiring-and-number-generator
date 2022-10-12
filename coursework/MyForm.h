@@ -158,7 +158,7 @@ namespace coursework {
 			this->textBoxOutput->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->textBoxOutput->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBoxOutput->Location = System::Drawing::Point(133, 61);
+			this->textBoxOutput->Location = System::Drawing::Point(122, 60);
 			this->textBoxOutput->Margin = System::Windows::Forms::Padding(2);
 			this->textBoxOutput->Name = L"textBoxOutput";
 			this->textBoxOutput->ReadOnly = true;
@@ -275,12 +275,13 @@ namespace coursework {
 			this->Controls->Add(this->buttonGenerate);
 			this->Controls->Add(this->N);
 			this->Controls->Add(this->textBoxInputN);
+			this->DoubleBuffered = true;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Margin = System::Windows::Forms::Padding(2);
 			this->MaximizeBox = false;
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"MyForm";
+			this->Text = L"Random Generator";
 			this->groupBoxMethods->ResumeLayout(false);
 			this->groupBoxMethods->PerformLayout();
 			this->groupBoxTypes->ResumeLayout(false);
