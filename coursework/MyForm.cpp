@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "Generator.h"	
 #include <msclr\marshal_cppstd.h>
+#include <fstream>
+
 using namespace coursework;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -11,7 +13,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
-System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) {
+System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) { 
 	Output->Text = "";
 
 	int n;
@@ -50,10 +52,8 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 			return;
 		}
 
-		for (int i = 0; i < size; i++) {	
-			output += msclr::interop::marshal_as<String^>(object.Generate());
-			output += " ";
-		}
+		for (int i = 0; i < size; i++)
+			output += msclr::interop::marshal_as<String^>(object.Generate()) + Environment::NewLine;
 	}
 	else {
 		output = msclr::interop::marshal_as<String^>(object.Generate());
@@ -72,4 +72,12 @@ System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object
 		sizeArray->Visible = false;
 		inputSizeArray->Visible = false;
 	}
+}
+
+System::Void coursework::MyForm::txtToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	Output->Text = "click txt";
+}
+
+System::Void coursework::MyForm::binToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	Output->Text = "click bin";
 }

@@ -21,13 +21,13 @@ public:
 
     std::string Generate();
 
-    std::string midSquareMethod();
-    std::string ParkMillerGenerator();
+    std::string midSquareMethod(); // сделать класс, будет наследовать основное генератор
+    std::string ParkMillerGenerator(); // сделать класс, будет наследовать основное генератор
 
-    std::string normalizeMidSquareMethod(std::string&);
-    std::string normalizeDouble(std::string&);
-    std::string trim_middle(std::string&);
+    std::string normalizeMidSquareMethod(std::string&);  // засунуть в класс MD
+    std::string normalizeDouble(std::string&); // оставить в этом классе
+    std::string trim_middle(std::string&); // засунуть в класс MD
 
-    std::string getRandomValueMidSquare();
-    unsigned long long getRandomValueParkMiller();
+    std::string getRandomValueMidSquare(); // засунуть в класс MD 
+    unsigned long long getRandomValueParkMiller(); // засунуть в класс PM
 };
