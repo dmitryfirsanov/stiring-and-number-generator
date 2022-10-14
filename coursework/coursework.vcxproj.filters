@@ -5,13 +5,16 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\generators">
+      <UniqueIdentifier>{c1fc6f77-55b8-4177-a088-ac893973e76f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Generator.cpp">
-      <Filter>src</Filter>
+      <Filter>src\generators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,7 +22,7 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Generator.h">
-      <Filter>src</Filter>
+      <Filter>src\generators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

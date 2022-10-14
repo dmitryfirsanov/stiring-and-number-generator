@@ -52,9 +52,13 @@ namespace coursework {
 		System::Windows::Forms::TextBox^ inputSizeArray;
 		System::Windows::Forms::ContextMenuStrip^ contextMenuStripForOutput;
 		System::Windows::Forms::ToolStripMenuItem^ saveToolStripMenuItem;
-		System::Windows::Forms::ToolStripMenuItem^ txtToolStripMenuItem;
-		System::Windows::Forms::ToolStripMenuItem^ binToolStripMenuItem;
-		System::ComponentModel::IContainer^ components;
+
+
+	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+	private: System::Windows::Forms::ToolStripMenuItem^ openToolStripMenuItem;
+
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+		   System::ComponentModel::IContainer^ components;
 
 	private:
 		/// <summary>
@@ -78,8 +82,7 @@ namespace coursework {
 			this->Output = (gcnew System::Windows::Forms::TextBox());
 			this->contextMenuStripForOutput = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->txtToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->binToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->groupBoxTypes = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButtonInt = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonDouble = (gcnew System::Windows::Forms::RadioButton());
@@ -90,6 +93,8 @@ namespace coursework {
 			this->ArrayOfGenerating = (gcnew System::Windows::Forms::CheckBox());
 			this->sizeArray = (gcnew System::Windows::Forms::Label());
 			this->inputSizeArray = (gcnew System::Windows::Forms::TextBox());
+			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->groupBoxMethods->SuspendLayout();
 			this->contextMenuStripForOutput->SuspendLayout();
 			this->groupBoxTypes->SuspendLayout();
@@ -103,11 +108,11 @@ namespace coursework {
 			this->groupBoxMethods->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->groupBoxMethods->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->groupBoxMethods->Location = System::Drawing::Point(470, 85);
+			this->groupBoxMethods->Location = System::Drawing::Point(376, 68);
 			this->groupBoxMethods->Margin = System::Windows::Forms::Padding(2);
 			this->groupBoxMethods->Name = L"groupBoxMethods";
 			this->groupBoxMethods->Padding = System::Windows::Forms::Padding(2);
-			this->groupBoxMethods->Size = System::Drawing::Size(135, 122);
+			this->groupBoxMethods->Size = System::Drawing::Size(108, 98);
 			this->groupBoxMethods->TabIndex = 17;
 			this->groupBoxMethods->TabStop = false;
 			this->groupBoxMethods->Text = L"Method";
@@ -118,10 +123,10 @@ namespace coursework {
 			this->radioButtonMS->Checked = true;
 			this->radioButtonMS->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButtonMS->Location = System::Drawing::Point(6, 26);
+			this->radioButtonMS->Location = System::Drawing::Point(5, 21);
 			this->radioButtonMS->Margin = System::Windows::Forms::Padding(2);
 			this->radioButtonMS->Name = L"radioButtonMS";
-			this->radioButtonMS->Size = System::Drawing::Size(122, 26);
+			this->radioButtonMS->Size = System::Drawing::Size(101, 22);
 			this->radioButtonMS->TabIndex = 12;
 			this->radioButtonMS->TabStop = true;
 			this->radioButtonMS->Text = L"Mid Square";
@@ -132,10 +137,10 @@ namespace coursework {
 			this->radioButtonPM->AutoSize = true;
 			this->radioButtonPM->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButtonPM->Location = System::Drawing::Point(6, 54);
+			this->radioButtonPM->Location = System::Drawing::Point(5, 43);
 			this->radioButtonPM->Margin = System::Windows::Forms::Padding(2);
 			this->radioButtonPM->Name = L"radioButtonPM";
-			this->radioButtonPM->Size = System::Drawing::Size(116, 26);
+			this->radioButtonPM->Size = System::Drawing::Size(97, 22);
 			this->radioButtonPM->TabIndex = 13;
 			this->radioButtonPM->TabStop = true;
 			this->radioButtonPM->Text = L"Park-Miller";
@@ -148,45 +153,40 @@ namespace coursework {
 			this->Output->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->Output->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->Output->Location = System::Drawing::Point(14, 36);
+			this->Output->Location = System::Drawing::Point(11, 29);
 			this->Output->Margin = System::Windows::Forms::Padding(2);
 			this->Output->Multiline = true;
 			this->Output->Name = L"Output";
 			this->Output->ReadOnly = true;
-			this->Output->Size = System::Drawing::Size(287, 288);
+			this->Output->Size = System::Drawing::Size(230, 231);
 			this->Output->TabIndex = 15;
 			this->Output->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// contextMenuStripForOutput
 			// 
 			this->contextMenuStripForOutput->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->contextMenuStripForOutput->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->saveToolStripMenuItem });
+			this->contextMenuStripForOutput->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->saveToolStripMenuItem,
+					this->openToolStripMenuItem
+			});
 			this->contextMenuStripForOutput->Name = L"contextMenuStripForOutput";
-			this->contextMenuStripForOutput->Size = System::Drawing::Size(153, 28);
+			this->contextMenuStripForOutput->Size = System::Drawing::Size(204, 70);
 			// 
 			// saveToolStripMenuItem
 			// 
-			this->saveToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->txtToolStripMenuItem,
-					this->binToolStripMenuItem
-			});
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(152, 24);
-			this->saveToolStripMenuItem->Text = L"Сохранить";
+			this->saveToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->saveToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::S));
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(203, 22);
+			this->saveToolStripMenuItem->Text = L"Сохранить как...";
+			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
-			// txtToolStripMenuItem
+			// openToolStripMenuItem
 			// 
-			this->txtToolStripMenuItem->Name = L"txtToolStripMenuItem";
-			this->txtToolStripMenuItem->Size = System::Drawing::Size(117, 26);
-			this->txtToolStripMenuItem->Text = L"TXT";
-			this->txtToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::txtToolStripMenuItem_Click);
-			// 
-			// binToolStripMenuItem
-			// 
-			this->binToolStripMenuItem->Name = L"binToolStripMenuItem";
-			this->binToolStripMenuItem->Size = System::Drawing::Size(117, 26);
-			this->binToolStripMenuItem->Text = L"BIN";
-			this->binToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::binToolStripMenuItem_Click);
+			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
+			this->openToolStripMenuItem->Size = System::Drawing::Size(203, 22);
+			this->openToolStripMenuItem->Text = L"Открыть";
+			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
 			// 
 			// groupBoxTypes
 			// 
@@ -197,11 +197,11 @@ namespace coursework {
 			this->groupBoxTypes->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->groupBoxTypes->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->groupBoxTypes->Location = System::Drawing::Point(330, 85);
+			this->groupBoxTypes->Location = System::Drawing::Point(264, 68);
 			this->groupBoxTypes->Margin = System::Windows::Forms::Padding(2);
 			this->groupBoxTypes->Name = L"groupBoxTypes";
 			this->groupBoxTypes->Padding = System::Windows::Forms::Padding(2);
-			this->groupBoxTypes->Size = System::Drawing::Size(135, 122);
+			this->groupBoxTypes->Size = System::Drawing::Size(108, 98);
 			this->groupBoxTypes->TabIndex = 16;
 			this->groupBoxTypes->TabStop = false;
 			this->groupBoxTypes->Text = L"Type";
@@ -212,10 +212,10 @@ namespace coursework {
 			this->radioButtonInt->Checked = true;
 			this->radioButtonInt->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButtonInt->Location = System::Drawing::Point(6, 26);
+			this->radioButtonInt->Location = System::Drawing::Point(5, 21);
 			this->radioButtonInt->Margin = System::Windows::Forms::Padding(2);
 			this->radioButtonInt->Name = L"radioButtonInt";
-			this->radioButtonInt->Size = System::Drawing::Size(53, 29);
+			this->radioButtonInt->Size = System::Drawing::Size(44, 24);
 			this->radioButtonInt->TabIndex = 12;
 			this->radioButtonInt->TabStop = true;
 			this->radioButtonInt->Text = L"int";
@@ -226,10 +226,10 @@ namespace coursework {
 			this->radioButtonDouble->AutoSize = true;
 			this->radioButtonDouble->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButtonDouble->Location = System::Drawing::Point(6, 52);
+			this->radioButtonDouble->Location = System::Drawing::Point(5, 42);
 			this->radioButtonDouble->Margin = System::Windows::Forms::Padding(2);
 			this->radioButtonDouble->Name = L"radioButtonDouble";
-			this->radioButtonDouble->Size = System::Drawing::Size(92, 29);
+			this->radioButtonDouble->Size = System::Drawing::Size(75, 24);
 			this->radioButtonDouble->TabIndex = 13;
 			this->radioButtonDouble->TabStop = true;
 			this->radioButtonDouble->Text = L"double";
@@ -240,10 +240,10 @@ namespace coursework {
 			this->radioButtonString->AutoSize = true;
 			this->radioButtonString->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->radioButtonString->Location = System::Drawing::Point(6, 78);
+			this->radioButtonString->Location = System::Drawing::Point(5, 62);
 			this->radioButtonString->Margin = System::Windows::Forms::Padding(2);
 			this->radioButtonString->Name = L"radioButtonString";
-			this->radioButtonString->Size = System::Drawing::Size(80, 29);
+			this->radioButtonString->Size = System::Drawing::Size(66, 24);
 			this->radioButtonString->TabIndex = 14;
 			this->radioButtonString->TabStop = true;
 			this->radioButtonString->Text = L"string";
@@ -253,10 +253,10 @@ namespace coursework {
 			// 
 			this->buttonGenerate->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->buttonGenerate->Location = System::Drawing::Point(14, 342);
+			this->buttonGenerate->Location = System::Drawing::Point(11, 274);
 			this->buttonGenerate->Margin = System::Windows::Forms::Padding(2);
 			this->buttonGenerate->Name = L"buttonGenerate";
-			this->buttonGenerate->Size = System::Drawing::Size(591, 68);
+			this->buttonGenerate->Size = System::Drawing::Size(473, 54);
 			this->buttonGenerate->TabIndex = 9;
 			this->buttonGenerate->Text = L"Generate";
 			this->buttonGenerate->UseVisualStyleBackColor = true;
@@ -267,10 +267,10 @@ namespace coursework {
 			this->max->AutoSize = true;
 			this->max->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->max->Location = System::Drawing::Point(354, 49);
+			this->max->Location = System::Drawing::Point(283, 39);
 			this->max->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->max->Name = L"max";
-			this->max->Size = System::Drawing::Size(67, 29);
+			this->max->Size = System::Drawing::Size(55, 24);
 			this->max->TabIndex = 11;
 			this->max->Text = L"max:";
 			// 
@@ -279,10 +279,10 @@ namespace coursework {
 			this->inputMax->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->inputMax->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->inputMax->Location = System::Drawing::Point(428, 49);
+			this->inputMax->Location = System::Drawing::Point(342, 39);
 			this->inputMax->Margin = System::Windows::Forms::Padding(2);
 			this->inputMax->Name = L"inputMax";
-			this->inputMax->Size = System::Drawing::Size(98, 27);
+			this->inputMax->Size = System::Drawing::Size(79, 23);
 			this->inputMax->TabIndex = 10;
 			this->inputMax->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
@@ -291,10 +291,9 @@ namespace coursework {
 			this->ArrayOfGenerating->AutoSize = true;
 			this->ArrayOfGenerating->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->ArrayOfGenerating->Location = System::Drawing::Point(428, 214);
-			this->ArrayOfGenerating->Margin = System::Windows::Forms::Padding(4);
+			this->ArrayOfGenerating->Location = System::Drawing::Point(342, 171);
 			this->ArrayOfGenerating->Name = L"ArrayOfGenerating";
-			this->ArrayOfGenerating->Size = System::Drawing::Size(81, 29);
+			this->ArrayOfGenerating->Size = System::Drawing::Size(65, 24);
 			this->ArrayOfGenerating->TabIndex = 18;
 			this->ArrayOfGenerating->Text = L"Array";
 			this->ArrayOfGenerating->UseVisualStyleBackColor = true;
@@ -305,10 +304,10 @@ namespace coursework {
 			this->sizeArray->AutoSize = true;
 			this->sizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->sizeArray->Location = System::Drawing::Point(356, 248);
+			this->sizeArray->Location = System::Drawing::Point(285, 198);
 			this->sizeArray->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->sizeArray->Name = L"sizeArray";
-			this->sizeArray->Size = System::Drawing::Size(67, 29);
+			this->sizeArray->Size = System::Drawing::Size(53, 24);
 			this->sizeArray->TabIndex = 19;
 			this->sizeArray->Text = L"size:";
 			this->sizeArray->Visible = false;
@@ -318,19 +317,27 @@ namespace coursework {
 			this->inputSizeArray->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->inputSizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->inputSizeArray->Location = System::Drawing::Point(428, 250);
+			this->inputSizeArray->Location = System::Drawing::Point(342, 200);
 			this->inputSizeArray->Margin = System::Windows::Forms::Padding(2);
 			this->inputSizeArray->Name = L"inputSizeArray";
-			this->inputSizeArray->Size = System::Drawing::Size(98, 27);
+			this->inputSizeArray->Size = System::Drawing::Size(79, 23);
 			this->inputSizeArray->TabIndex = 20;
 			this->inputSizeArray->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			this->inputSizeArray->Visible = false;
 			// 
+			// saveFileDialog1
+			// 
+			this->saveFileDialog1->Filter = L"txt files (*.txt)|*.txt|bin files (*.bin)|*.bin";
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
+			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(120, 120);
+			this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
-			this->ClientSize = System::Drawing::Size(620, 460);
+			this->ClientSize = System::Drawing::Size(496, 368);
 			this->Controls->Add(this->inputSizeArray);
 			this->Controls->Add(this->sizeArray);
 			this->Controls->Add(this->ArrayOfGenerating);
@@ -362,7 +369,7 @@ namespace coursework {
 	private: 
 		System::Void buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void ArrayOfGenerating_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-		System::Void txtToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void binToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
