@@ -58,6 +58,7 @@ namespace coursework {
 	private: System::Windows::Forms::ToolStripMenuItem^ openToolStripMenuItem;
 
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	private: System::Windows::Forms::ErrorProvider^ errorProvider1;
 		   System::ComponentModel::IContainer^ components;
 
 	private:
@@ -95,9 +96,11 @@ namespace coursework {
 			this->inputSizeArray = (gcnew System::Windows::Forms::TextBox());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
 			this->groupBoxMethods->SuspendLayout();
 			this->contextMenuStripForOutput->SuspendLayout();
 			this->groupBoxTypes->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// groupBoxMethods
@@ -170,7 +173,7 @@ namespace coursework {
 					this->openToolStripMenuItem
 			});
 			this->contextMenuStripForOutput->Name = L"contextMenuStripForOutput";
-			this->contextMenuStripForOutput->Size = System::Drawing::Size(204, 70);
+			this->contextMenuStripForOutput->Size = System::Drawing::Size(204, 48);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -333,6 +336,10 @@ namespace coursework {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// errorProvider1
+			// 
+			this->errorProvider1->ContainerControl = this;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
@@ -361,6 +368,7 @@ namespace coursework {
 			this->contextMenuStripForOutput->ResumeLayout(false);
 			this->groupBoxTypes->ResumeLayout(false);
 			this->groupBoxTypes->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

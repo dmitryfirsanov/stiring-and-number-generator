@@ -21,9 +21,9 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	int n;
 
 	try {
-		n = Convert::ToInt64(inputMax->Text);
+		n = Convert::ToInt32(inputMax->Text);
 	}
-	catch (Exception^ e) {
+	catch (Exception^) {
 		MessageBox::Show("¬ведите max!", "Error Max", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
@@ -47,9 +47,9 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		int size;
 
 		try {
-			size = Convert::ToInt64(inputSizeArray->Text);
+			size = Convert::ToInt32(inputSizeArray->Text);
 		}
-		catch (Exception^ e) {
+		catch (Exception^) {
 			MessageBox::Show("¬ведите size!", "Error Size", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			return;
 		}
@@ -77,16 +77,23 @@ System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object
 
 System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	saveFileDialog1->ShowDialog();
-	String^ filepath = saveFileDialog1->FileName;
-	System::IO::File::WriteAllText(filepath, Output->Text);
+	try
+	{
+		String^ filepath = saveFileDialog1->FileName;
+		System::IO::File::WriteAllText(filepath, Output->Text);
+	}
+	catch (Exception^) {}
 }
 
 System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	openFileDialog1->ShowDialog();
-	String^ filepath = openFileDialog1->FileName;
-	array <String^>^ lines = System::IO::File::ReadAllLines(filepath);
-	Output->Text = "";
-	for (int i = 0; i < lines->Length; i++) {
-		Output->Text += lines[i] + Environment::NewLine;
+	try {
+		String^ filepath = openFileDialog1->FileName;
+		array <String^>^ lines = System::IO::File::ReadAllLines(filepath);
+		Output->Text = "";
+		for (int i = 0; i < lines->Length; i++) {
+			Output->Text += lines[i] + Environment::NewLine;
+		}
 	}
+	catch (Exception^) {}
 }
