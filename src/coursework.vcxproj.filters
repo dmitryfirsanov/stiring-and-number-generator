@@ -8,6 +8,9 @@
     <Filter Include="src\generators">
       <UniqueIdentifier>{c1fc6f77-55b8-4177-a088-ac893973e76f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\methods">
+      <UniqueIdentifier>{5c2e5626-1754-4538-b010-e6d1e5c3b78d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyForm.cpp">
@@ -16,6 +19,12 @@
     <ClCompile Include="Generator.cpp">
       <Filter>src\generators</Filter>
     </ClCompile>
+    <ClCompile Include="midSquareMethod.cpp">
+      <Filter>src\methods</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkMillerGenerator.cpp">
+      <Filter>src\methods</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -23,6 +32,12 @@
     </ClInclude>
     <ClInclude Include="Generator.h">
       <Filter>src\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="midSquareMethod.h">
+      <Filter>src\methods</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkMillerGenerator.h">
+      <Filter>src\methods</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

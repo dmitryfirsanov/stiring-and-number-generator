@@ -1,6 +1,8 @@
 #include "MyForm.h"
 #include <Windows.h>
-#include "Generator.h"	
+#include "Generator.h"
+#include "midSquareMethod.h"
+#include "ParkMillerGenerator.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
 
@@ -41,7 +43,21 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	}
 
 	String^ output = "";
-	Generator object(n, type, method);
+
+	Generator* object;
+
+	switch (method) {
+	case 0:
+		object = &midSquareMethod(n, type);
+		break;
+	case 1:
+		object = &ParkMillerGenerator(n, type);
+		break;
+	default:
+		break;
+	}
+
+
 
 	if (ArrayOfGenerating->Checked) {
 		int size;
@@ -55,10 +71,10 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		}
 
 		for (int i = 0; i < size; i++)
-			output += marshal_as<String^>(object.Generate()) + Environment::NewLine;
+			output += marshal_as<String^>(object->Generate()) + Environment::NewLine;
 	}
 	else {
-		output = marshal_as<String^>(object.Generate());
+		output = marshal_as<String^>(object->Generate());
 	}
 
 	Output->Text = output;
