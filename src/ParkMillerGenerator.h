@@ -10,5 +10,5 @@ public:
 
 	std::string Generate() override;
 
-	unsigned long long getRandomValueParkMiller();
+	unsigned long long getRandomValue();
 };

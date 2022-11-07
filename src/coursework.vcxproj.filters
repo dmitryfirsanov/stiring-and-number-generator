@@ -25,6 +25,9 @@
     <ClCompile Include="ParkMillerGenerator.cpp">
       <Filter>src\methods</Filter>
     </ClCompile>
+    <ClCompile Include="BBS.cpp">
+      <Filter>src\methods</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -37,6 +40,9 @@
       <Filter>src\methods</Filter>
     </ClInclude>
     <ClInclude Include="ParkMillerGenerator.h">
+      <Filter>src\methods</Filter>
+    </ClInclude>
+    <ClInclude Include="BBS.h">
       <Filter>src\methods</Filter>
     </ClInclude>
   </ItemGroup>

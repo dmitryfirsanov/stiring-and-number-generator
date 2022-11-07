@@ -11,18 +11,18 @@ std::string midSquareMethod::Generate() {
 
 	switch (getType()) {
 	case 0: // int
-		randomValue = getRandomValueMidSquare();
+		randomValue = getRandomValue();
 		result = std::to_string(stoull(randomValue) % (getN() + 1));
 		break;
 	case 1: // double
-		randomValue = getRandomValueMidSquare();
+		randomValue = getRandomValue();
 		ss << std::fixed << std::setprecision(getN()) << stoull(randomValue) * pow(10, -int(log10(stoull(randomValue)) + 1));
 		result = ss.str();
 		normalizeDouble(result);
 		break;
 	case 2: // string
 		for (int i = 0; i < getN(); i++) {
-			std::string randomValue = getRandomValueMidSquare();
+			std::string randomValue = getRandomValue();
 			result += latinAlphabet[stoull(randomValue) % latinAlphabet.size()];
 		}
 		break;
@@ -33,21 +33,21 @@ std::string midSquareMethod::Generate() {
 	return result;
 }
 
-std::string midSquareMethod::getRandomValueMidSquare() {
+std::string midSquareMethod::getRandomValue() {
 	std::random_device rd;
 	std::default_random_engine gen(rd());
-	std::uniform_int_distribution<> uni_dist(0, INT_MAX);
+	std::uniform_int_distribution<int> uni_dist(0, INT_MAX);
 
 	auto x0 = uni_dist(gen);
 	unsigned long long squared = pow(x0, 2);
 	std::string randomValue = std::to_string(squared);
-	trim_middle(randomValue);
+	trimMiddle(randomValue);
 
 	return randomValue;
 }
 
-std::string midSquareMethod::trim_middle(std::string& str) {
-	normalizeMidSquareMethod(str);
+std::string midSquareMethod::trimMiddle(std::string& str) {
+	normalize(str);
 	int size = ceil(str.size() / 4.0);
 	str.erase(0, size);
 	str.erase(str.size() - size, size);
@@ -55,7 +55,7 @@ std::string midSquareMethod::trim_middle(std::string& str) {
 	return str;
 }
 
-std::string midSquareMethod::normalizeMidSquareMethod(std::string& str) {
+std::string midSquareMethod::normalize(std::string& str) {
 	if (str.size() < 4) {
 		while (str.size() != 4) {
 			str.insert(0, "0");

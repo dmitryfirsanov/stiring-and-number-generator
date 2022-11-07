@@ -10,7 +10,7 @@ public:
 
 	std::string Generate() override;
 	
-	std::string getRandomValueMidSquare();
-	std::string trim_middle(std::string&);
-	std::string normalizeMidSquareMethod(std::string&);
+	std::string getRandomValue();
+	std::string trimMiddle(std::string&);
+	std::string normalize(std::string&);
 };

@@ -3,7 +3,7 @@
 ParkMillerGenerator::ParkMillerGenerator(int n, int type) : Generator(n, type) {}
 
 std::string ParkMillerGenerator::Generate() {
-	unsigned randomValue;
+	unsigned long long randomValue;
 	std::stringstream ss;
 	std::string result;
 	std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
@@ -11,18 +11,18 @@ std::string ParkMillerGenerator::Generate() {
 
 	switch (getType()) {
 	case 0: // int
-		randomValue = getRandomValueParkMiller() % (getN() + 1);
+		randomValue = getRandomValue () % (getN() + 1);
 		result = std::to_string(randomValue);
 		break;
 	case 1: //double
-		randomValue = getRandomValueParkMiller();
+		randomValue = getRandomValue();
 		ss << std::fixed << std::setprecision(getN()) << randomValue * pow(10, -int(log10(randomValue) + 1));
 		result = ss.str();
 		normalizeDouble(result);
 		break;
 	case 2: // string
 		for (int i = 0; i < getN(); i++) {
-			randomValue = getRandomValueParkMiller() % latinAlphabet.size();
+			randomValue = getRandomValue() % latinAlphabet.size();
 			result += latinAlphabet[randomValue];
 		}
 		break;
@@ -33,7 +33,7 @@ std::string ParkMillerGenerator::Generate() {
 	return result;
 }
 
-unsigned long long ParkMillerGenerator::getRandomValueParkMiller()
+unsigned long long ParkMillerGenerator::getRandomValue()
 {
 	const int a = 16807;
 	const int q = 12773;
@@ -42,7 +42,7 @@ unsigned long long ParkMillerGenerator::getRandomValueParkMiller()
 
 	std::random_device rd;
 	std::default_random_engine gen(rd());
-	std::uniform_int_distribution<> uni_dist(1, m - 1);
+	std::uniform_int_distribution<int> uni_dist(1, m - 1);
 
 	auto z = uni_dist(gen);
 	unsigned long long randomValue;

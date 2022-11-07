@@ -122,12 +122,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BBS.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="midSquareMethod.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="ParkMillerGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BBS.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="midSquareMethod.h" />
     <ClInclude Include="MyForm.h">
