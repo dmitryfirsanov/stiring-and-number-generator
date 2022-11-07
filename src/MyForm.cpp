@@ -3,6 +3,7 @@
 #include "Generator.h"
 #include "midSquareMethod.h"
 #include "ParkMillerGenerator.h"
+#include "BBS.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
 
@@ -54,6 +55,11 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	case 1:
 		object = &ParkMillerGenerator(n, type);
 		break;
+	case 2:
+		break;
+	case 3:
+		object = &BBS(n, type);
+		break;
 	default:
 		break;
 	}
@@ -94,24 +100,27 @@ System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object
 
 System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	saveFileDialog1->ShowDialog();
+
 	try
 	{
 		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
 		std::string extenstion = filepath;
+		std::string data = marshal_as<std::string>(Output->Text);
 		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
 			std::ofstream fText(filepath);
-			std::string data = marshal_as<std::string>(Output->Text);
 			fText << data;
 			fText.close();
 		}
 		else {
 			std::ofstream fBin(filepath, std::ios::out | std::ios::binary);
-			std::string data = marshal_as<std::string>(Output->Text);
 			fBin.write(reinterpret_cast<char*>(&data), sizeof(data));
 			fBin.close();
 		}
 	}
-	catch (Exception^) {}
+	catch (Exception^) {
+		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
 }
 
 System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -133,15 +142,24 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 			iText.close();
 		}
 		else {
-			std::ifstream iBin(filepath, std::ios::binary);
-			size_t size = 0;
-			iBin.read(reinterpret_cast<char*>(&size), sizeof(size));
+			std::ifstream iBin;
+			iBin.open(filepath, std::ios::in | std::ios::binary);
+			iBin.seekg(0, std::ios::end);
+			size_t size = iBin.tellg();
+			iBin.seekg(0, std::ios::beg);
+
+			char* buf = new char[size];
 			std::string data;
-			data.resize(size);
-			iBin.read(reinterpret_cast<char*>(&size), data.size());
+			while (iBin.tellg() < size) {
+				iBin.read((char*)&buf, sizeof(buf));
+				Output->Text += Convert::ToString(buf);
+			}
+
 			iBin.close();
-			Output->Text = marshal_as<String^>(data);
-		}	
+		}
 	}
-	catch (Exception^) {}
+	catch (Exception^) {
+		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
 }
