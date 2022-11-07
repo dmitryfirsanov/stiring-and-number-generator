@@ -3,6 +3,10 @@ This is my course work on programming at the institute🧑‍🎓
 
 ## Generation methods⌨️
 
-- Park–Miller random number generator
+- Park–Miller
 
-- Middle-square method
+- Middle-square
+
+- Geffe
+
+- BBS
