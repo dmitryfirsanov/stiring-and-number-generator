@@ -21,6 +21,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) { 
 	Output->Text = "";
+	buttonGenerate->Enabled = false;
 
 	int n;
 
@@ -29,6 +30,7 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	}
 	catch (Exception^) {
 		MessageBox::Show("¬ведите max!", "Error Max", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		buttonGenerate->Enabled = true;
 		return;
 	}
 
@@ -64,8 +66,6 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		break;
 	}
 
-
-
 	if (ArrayOfGenerating->Checked) {
 		int size;
 
@@ -74,6 +74,7 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		}
 		catch (Exception^) {
 			MessageBox::Show("¬ведите size!", "Error Size", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			buttonGenerate->Enabled = true;
 			return;
 		}
 
@@ -85,6 +86,7 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	}
 
 	Output->Text = output;
+	buttonGenerate->Enabled = true;
 }
 
 System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
