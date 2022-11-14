@@ -33,43 +33,61 @@ std::string BBS::Generate() {
 }
 
 unsigned long long BBS::getRandomValue() {
+	std::vector<int> numbers(10000);
+	std::vector<int> primeNumbers;
+
+	for (int i = 0; i < numbers.size(); i++) {
+		numbers[i] = i;
+	}
+
+	for (int i = 2; i < numbers.size(); i++) {
+		for (int j = i + 1; j < numbers.size(); j++) {
+			if (numbers[j] == 0) continue;
+			if (j % i == 0) {
+				numbers[j] = 0;
+				continue;
+			}
+		}
+		if (i * i > numbers.size()) break; // <== ÎÏÒÈÌÈÇÀÖÈß
+	}
+
+	for (int i : numbers) {
+		if (numbers[i] != 0 && numbers[i] != 1) {
+			primeNumbers.push_back(numbers[i]);
+		}
+	}
+
+	numbers.clear();
+	numbers.shrink_to_fit();
+
 	std::random_device rd;
 	std::default_random_engine gen(rd());
-	std::uniform_int_distribution<int> uni_dist(0, 100000);
-	
-	auto p = 4 * uni_dist(gen) + 3;
-	auto q = 4 * uni_dist(gen) + 3;
+	std::uniform_int_distribution<int> uni_dist_forPrime(0, primeNumbers.size() - 1);
 
-	while (isPrime(p) != true) {
-		p = 4 * uni_dist(gen) + 3;
+	unsigned long long index = uni_dist_forPrime(gen);
+
+	while (primeNumbers[index] % 4 != 3) {
+		index = uni_dist_forPrime(gen);
 	}
+	auto p = primeNumbers[index];
 
-	while (isPrime(q) != true && p != q) {
-		q = 4 * uni_dist(gen) + 3;
+	while (primeNumbers[index] % 4 != 3 && p == primeNumbers[index]) {
+		index = uni_dist_forPrime(gen);
 	}
+	auto q = primeNumbers[index];
 
-	auto n = p * q;
+	primeNumbers.clear();
+	primeNumbers.shrink_to_fit();
 
+	auto M = p * q;
+
+	std::uniform_int_distribution<int> uni_dist(0, INT_MAX);
 	auto x = uni_dist(gen);
 
 	while (x % p == 0 && x % q == 0) {
 		x = uni_dist(gen);
 	}
-	
-	unsigned long long randomValue = unsigned long long(pow(x, 2)) % n;
+
+	unsigned long long randomValue = unsigned long long(pow(x, 2)) % M;
 	return randomValue;
 }
-
-bool BBS::isPrime(unsigned long long number) {
-	if (number <= 1)
-		return false;
-	if (number % 2 == 0 && number > 2)
-		return false;
-	for (int i = 3; i < number / 2; i += 2) {
-		if (number % i == 0)
-			return false;
-	}
-	return true;
-}
-
-

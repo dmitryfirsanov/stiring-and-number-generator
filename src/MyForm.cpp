@@ -115,7 +115,9 @@ System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sen
 		}
 		else {
 			std::ofstream fBin(filepath, std::ios::out | std::ios::binary);
-			fBin.write(reinterpret_cast<char*>(&data), sizeof(data));
+			for (int i = 0; i < data.length(); i++) {
+				fBin << data[i];
+			}
 			fBin.close();
 		}
 	}
@@ -144,24 +146,19 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 			iText.close();
 		}
 		else {
-			std::ifstream iBin;
-			iBin.open(filepath, std::ios::in | std::ios::binary);
-			iBin.seekg(0, std::ios::end);
-			size_t size = iBin.tellg();
-			iBin.seekg(0, std::ios::beg);
-
-			char* buf = new char[size];
-			std::string data;
-			while (iBin.tellg() < size) {
-				iBin.read((char*)&buf, sizeof(buf));
-				Output->Text += Convert::ToString(buf);
-			}
-
+			std::ifstream iBin(filepath, std::ios::in | std::ios::binary);
+			std::stringstream ss;
+			ss << iBin.rdbuf();
 			iBin.close();
+
+			std::string data = ss.str();
+			Output->Text = marshal_as<String^>(data);
+			
+				
 		}
 	}
 	catch (Exception^) {
-		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show("Некоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
 }

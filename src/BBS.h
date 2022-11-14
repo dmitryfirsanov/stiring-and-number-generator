@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Generator.h"
+#include <vector>
 
 using namespace coursework;
 
@@ -11,5 +12,4 @@ public:
 	std::string Generate() override;
 
 	unsigned long long getRandomValue();
-	bool isPrime(unsigned long long number);
 };

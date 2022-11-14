@@ -7,7 +7,8 @@ std::string midSquareMethod::Generate() {
 	std::stringstream ss;
 	std::string result;
 	std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-
+	// закинть в конструктор 9 строку через инициализцию
+	// шаблоны классов, специализация метода для конкретного типа данных
 
 	switch (getType()) {
 	case 0: // int
