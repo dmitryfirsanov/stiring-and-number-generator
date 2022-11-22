@@ -6,6 +6,7 @@
 #include "BBS.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
+#include <vector>
 
 using namespace coursework;
 using namespace msclr::interop;
@@ -18,6 +19,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Application::Run(gcnew MyForm);
 	return 0;
 }
+
+std::vector <std::string> session;
+std::string buf;
+
+bool isNewValue(std::string value) {
+	for (int i = 0; i < session.size(); i++) {
+		if (value == session[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) { 
 	Output->Text = "";
@@ -66,11 +82,11 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		break;
 	}
 
-	if (ArrayOfGenerating->Checked) {
-		int size;
+	int arraySize;
+	if (isArrayButton->Checked) {
 
 		try {
-			size = Convert::ToInt32(inputSizeArray->Text);
+			arraySize = Convert::ToInt32(inputSizeArray->Text);
 		}
 		catch (Exception^) {
 			MessageBox::Show("Введите size!", "Error Size", MessageBoxButtons::OK, MessageBoxIcon::Error);
@@ -78,19 +94,59 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 			return;
 		}
 
-		for (int i = 0; i < size; i++)
-			output += marshal_as<String^>(object->Generate()) + Environment::NewLine;
+		for (int i = 0; i < arraySize; i++) {
+			buf = object->Generate();
+			/*if (isSessionButton->Checked) {
+				if (session.size() >= n + 1) {
+					MessageBox::Show("Сессия закончена!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					return;
+				}
+				if (n < arraySize - 1) {
+					MessageBox::Show("!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					return;
+				}
+				while (!isNewValue(buf)) {
+					buf = object->Generate();
+				}
+				session.push_back(buf);
+				
+			}*/
+			
+			output += marshal_as<String^>(buf) + Environment::NewLine;
+		}
 	}
 	else {
-		output = marshal_as<String^>(object->Generate());
+		buf = object->Generate();
+		if (isSessionButton->Checked) {
+			if (session.size() >= n + 1) {
+				MessageBox::Show("Сессия закончена!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
+				return;
+			}
+			while (!isNewValue(buf)) {
+				buf = object->Generate();
+			}
+			session.push_back(buf);
+		}
+
+		output = marshal_as<String^>(buf);
+	}
+
+	if (isSessionButton->Checked) {
+		//std::string filepath = ".\\cache.txt";
+		//std::ofstream fSession;
+		//fSession.open(filepath, std::ios::app);
+		//fSession << marshal_as<std::string>(output);
+		//fSession << '\n';
+		//fSession.close();
+		
 	}
 
 	Output->Text = output;
 	buttonGenerate->Enabled = true;
 }
 
-System::Void coursework::MyForm::ArrayOfGenerating_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (ArrayOfGenerating->Checked) {
+System::Void coursework::MyForm::isArrayButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isArrayButton->Checked) {
 		sizeArray->Visible = true;
 		inputSizeArray->Visible = true;
 	}
@@ -132,8 +188,9 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 	try {
 		std::string filepath = marshal_as<std::string>(openFileDialog1->FileName);
 		std::string extenstion = filepath;
+		extenstion.erase(0, extenstion.rfind(".") + 1);
 		Output->Text = "";
-		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
+		if ( extenstion == "txt") {
 			std::ifstream iText(filepath);
 			std::string line;
 			if (iText.is_open())
@@ -160,5 +217,34 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 	catch (Exception^) {
 		MessageBox::Show("Некоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
+	}
+}
+
+System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	return System::Void();
+}
+
+System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	return System::Void();
+}
+
+System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isSessionButton->Checked) {
+		isArrayButton->Enabled = false;
+		saveSessionToolStripMenuItem->Visible = true;
+		openSessionToolStripMenuItem->Visible = true;
+	}
+	else {
+		isArrayButton->Enabled = true;
+		saveSessionToolStripMenuItem->Visible = false;
+		openSessionToolStripMenuItem->Visible = false;
+	}
+}
+
+System::Void coursework::MyForm::inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isSessionButton->Checked) {
+		int max;
+		inputMax->Text == "" ? max = 0 : max = Convert::ToInt32(inputMax->Text);
+		max >= session.size() ? buttonGenerate->Enabled = true : buttonGenerate->Enabled = false;
 	}
 }
