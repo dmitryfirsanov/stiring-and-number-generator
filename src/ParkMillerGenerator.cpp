@@ -22,8 +22,9 @@ std::string ParkMillerGenerator::Generate() {
 		break;
 	case 2: // string
 		for (int i = 0; i < getN(); i++) {
-			randomValue = getRandomValue() % latinAlphabet.size();
-			result += latinAlphabet[randomValue];
+			std::string symbols = getSymbols();
+			int index = getRandomValue() % symbols.size();
+			result += symbols[index];
 		}
 		break;
 	default:

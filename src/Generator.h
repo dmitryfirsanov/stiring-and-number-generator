@@ -23,4 +23,5 @@ public:
     virtual std::string Generate();
 
     std::string normalizeDouble(std::string&);
+    std::string getSymbols();
 };

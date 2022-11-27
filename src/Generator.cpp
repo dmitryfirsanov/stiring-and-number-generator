@@ -27,3 +27,27 @@ std::string Generator::normalizeDouble(std::string& str) {
 
 	return str;
 };
+
+std::string Generator::getSymbols() {
+
+	std::string latinAlphabet("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+	std::string cyrillicAlphabet("AaÁáÂâÃãÄäÅå¨¸ÆæÇçÈèÉéÊêËëÌìÍíÎîÏïĞğÑñÒòÓóÔôÕõÖö×÷ØøÙùÚúÛûÜüİıŞşßÿ");
+	std::string punctuationMarks = "\".,-:;?!";
+	//punctuationMarks += '"';
+
+
+	std::random_device rd;
+	std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> uni_dist(0, 2);
+
+	int index = uni_dist(gen);
+	switch (index) {
+	case 0:
+		return latinAlphabet;
+	case 1: 
+		return cyrillicAlphabet;
+	case 2:
+		return punctuationMarks;
+	}
+
+}

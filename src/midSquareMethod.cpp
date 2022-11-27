@@ -6,7 +6,6 @@ std::string midSquareMethod::Generate() {
 	std::string randomValue;
 	std::stringstream ss;
 	std::string result;
-	std::string latinAlphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 	// закинть в конструктор 9 строку через инициализцию
 	// шаблоны классов, специализация метода для конкретного типа данных
 
@@ -23,8 +22,10 @@ std::string midSquareMethod::Generate() {
 		break;
 	case 2: // string
 		for (int i = 0; i < getN(); i++) {
+			std::string symbols = getSymbols();
 			std::string randomValue = getRandomValue();
-			result += latinAlphabet[stoull(randomValue) % latinAlphabet.size()];
+			int index = stoull(randomValue) % symbols.size();
+			result += symbols[index];
 		}
 		break;
 	default:
@@ -68,3 +69,4 @@ std::string midSquareMethod::normalize(std::string& str) {
 
 	return str;
 }
+

@@ -7,6 +7,7 @@
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 using namespace coursework;
 using namespace msclr::interop;
@@ -32,8 +33,6 @@ bool isNewValue(std::string value) {
 
 	return true;
 }
-
-
 
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) { 
 	Output->Text = "";
@@ -96,29 +95,29 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 
 		for (int i = 0; i < arraySize; i++) {
 			buf = object->Generate();
-			/*if (isSessionButton->Checked) {
-				if (session.size() >= n + 1) {
-					MessageBox::Show("Сессия закончена!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
-					return;
-				}
-				if (n < arraySize - 1) {
-					MessageBox::Show("!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
-					return;
-				}
-				while (!isNewValue(buf)) {
-					buf = object->Generate();
-				}
-				session.push_back(buf);
-				
-			}*/
-			
 			output += marshal_as<String^>(buf) + Environment::NewLine;
 		}
 	}
 	else {
 		buf = object->Generate();
 		if (isSessionButton->Checked) {
-			if (session.size() >= n + 1) {
+			unsigned long long maxSessionSize;
+			int numberOfSymbols = 126;
+			switch (type) {
+			case 0:
+				maxSessionSize = n + 1;
+				break;
+			case 1:
+				maxSessionSize = pow(10, n) + 1;
+				break;
+			case 2:
+				maxSessionSize = pow(numberOfSymbols, n);
+				break;
+			default:
+				break;
+			}
+
+			if (session.size() >= maxSessionSize) {
 				MessageBox::Show("Сессия закончена!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
 				return;
 			}
@@ -138,7 +137,6 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		//fSession << marshal_as<std::string>(output);
 		//fSession << '\n';
 		//fSession.close();
-		
 	}
 
 	Output->Text = output;
@@ -185,20 +183,32 @@ System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sen
 
 System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	openFileDialog1->ShowDialog();
+
 	try {
 		std::string filepath = marshal_as<std::string>(openFileDialog1->FileName);
 		std::string extenstion = filepath;
 		extenstion.erase(0, extenstion.rfind(".") + 1);
 		Output->Text = "";
-		if ( extenstion == "txt") {
+		if (extenstion == "txt") {
 			std::ifstream iText(filepath);
 			std::string line;
 			if (iText.is_open())
 			{
 				while (getline(iText, line))
 				{
+					std::string::iterator it = std::remove(line.begin(), line.end(), '\r');
+					line.erase(it, line.end());
+
+					if (isSessionButton->Checked) {
+						session.push_back(line);
+					}
 					Output->Text += marshal_as<String^>(line) + Environment::NewLine;
 				}
+			}
+			if (isSessionButton->Checked) {
+				std::sort(session.begin(), session.end());
+				auto last = std::unique(session.begin(), session.end());
+				session.erase(last, session.end());
 			}
 			iText.close();
 		}
@@ -221,11 +231,81 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 }
 
 System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	return System::Void();
+	saveFileDialog1->ShowDialog();
+
+	try
+	{
+		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
+		std::string extenstion = filepath;
+		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
+			std::ofstream fText(filepath);
+			for (int i = 0; i < session.size(); i++) {
+				fText << session[i];
+				fText << '\n';
+			}
+			fText.close();
+		}
+		else {
+			std::ofstream fBin(filepath, std::ios::out | std::ios::binary);
+			for (int i = 0; i < session.size(); i++) {
+				fBin << session[i];
+				fBin << '\n';
+			}
+			fBin.close();
+		}
+	}
+	catch (Exception^) {
+		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
+
 }
 
 System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	return System::Void();
+	openFileDialog1->ShowDialog();
+
+	try {
+		std::string filepath = marshal_as<std::string>(openFileDialog1->FileName);
+		std::string extenstion = filepath;
+		extenstion.erase(0, extenstion.rfind(".") + 1);
+		Output->Text = "";
+		if (extenstion == "txt") {
+			std::ifstream iText(filepath);
+			std::string line;
+			if (iText.is_open())
+			{
+				while (getline(iText, line))
+				{
+					std::string::iterator it = std::remove(line.begin(), line.end(), '\r');
+					line.erase(it, line.end());
+					session.push_back(line);
+				}
+			}
+			iText.close();
+		}
+		else {
+			std::ifstream iBin(filepath, std::ios::in | std::ios::binary);
+			std::stringstream ss;
+			ss << iBin.rdbuf();
+			iBin.close();
+
+			std::string data = ss.str();
+			std::replace(data.begin(), data.end(), '\n', ' ');
+			session.clear();
+			for (int i = 0; i < data.length() - 1; i++) {
+				std::string buf;
+				buf += data[i];
+				if (data[i + 1] == ' ') {
+					session.push_back(buf);
+					buf.clear();
+				}
+			}
+		}
+	}
+	catch (Exception^) {
+		MessageBox::Show("Некоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
 }
 
 System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
