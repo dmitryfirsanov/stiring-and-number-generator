@@ -95,6 +95,13 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 
 		for (int i = 0; i < arraySize; i++) {
 			buf = object->Generate();
+			if (type == 2) {
+				for (int i = 0; i < buf.length(); i++) {
+					if (buf[i] == '\"' || buf[i] == '.' || buf[i] == ',' || buf[i] == '-' || buf[i] == ':' || buf[i] == ';' || buf[i] == '?' || buf[i] == '!') {
+						buf.insert(i + 1, " ");
+					}
+				}
+			}
 			output += marshal_as<String^>(buf) + Environment::NewLine;
 		}
 	}
@@ -124,19 +131,17 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 			while (!isNewValue(buf)) {
 				buf = object->Generate();
 			}
+			if (type == 2) {
+				for (int i = 0; i < buf.length(); i++) {
+					if (buf[i] == '\"' || buf[i] == '.' || buf[i] == ',' || buf[i] == '-' || buf[i] == ':' || buf[i] == ';' || buf[i] == '?' || buf[i] == '!') {
+						buf.insert(i + 1, " ");
+					}
+				}
+			}
 			session.push_back(buf);
 		}
 
 		output = marshal_as<String^>(buf);
-	}
-
-	if (isSessionButton->Checked) {
-		//std::string filepath = ".\\cache.txt";
-		//std::ofstream fSession;
-		//fSession.open(filepath, std::ios::app);
-		//fSession << marshal_as<std::string>(output);
-		//fSession << '\n';
-		//fSession.close();
 	}
 
 	Output->Text = output;
@@ -151,6 +156,21 @@ System::Void coursework::MyForm::isArrayButton_CheckedChanged(System::Object^ se
 	else {
 		sizeArray->Visible = false;
 		inputSizeArray->Visible = false;
+	}
+}
+
+System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isSessionButton->Checked) {
+		isArrayButton->Enabled = false;
+		isArrayButton->Checked = false;
+		saveSessionToolStripMenuItem->Visible = true;
+		openSessionToolStripMenuItem->Visible = true;
+	}
+	else {
+		isArrayButton->Enabled = true;
+		buttonGenerate->Enabled = true;
+		saveSessionToolStripMenuItem->Visible = false;
+		openSessionToolStripMenuItem->Visible = false;
 	}
 }
 
@@ -179,6 +199,37 @@ System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sen
 		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
+}
+
+System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	saveFileDialog1->ShowDialog();
+
+	try
+	{
+		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
+		std::string extenstion = filepath;
+		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
+			std::ofstream fText(filepath);
+			for (int i = 0; i < session.size(); i++) {
+				fText << session[i];
+				fText << '\n';
+			}
+			fText.close();
+		}
+		else {
+			std::ofstream fBin(filepath, std::ios::out | std::ios::binary);
+			for (int i = 0; i < session.size(); i++) {
+				fBin << session[i];
+				fBin << '\n';
+			}
+			fBin.close();
+		}
+	}
+	catch (Exception^) {
+		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return;
+	}
+
 }
 
 System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -219,46 +270,13 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 			iBin.close();
 
 			std::string data = ss.str();
-			Output->Text = marshal_as<String^>(data);
-			
-				
+			Output->Text = marshal_as<String^>(data);	
 		}
 	}
 	catch (Exception^) {
 		MessageBox::Show("Некоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
-}
-
-System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	saveFileDialog1->ShowDialog();
-
-	try
-	{
-		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
-		std::string extenstion = filepath;
-		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
-			std::ofstream fText(filepath);
-			for (int i = 0; i < session.size(); i++) {
-				fText << session[i];
-				fText << '\n';
-			}
-			fText.close();
-		}
-		else {
-			std::ofstream fBin(filepath, std::ios::out | std::ios::binary);
-			for (int i = 0; i < session.size(); i++) {
-				fBin << session[i];
-				fBin << '\n';
-			}
-			fBin.close();
-		}
-	}
-	catch (Exception^) {
-		MessageBox::Show("Неккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
-		return;
-	}
-
 }
 
 System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -290,14 +308,14 @@ System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Obje
 			iBin.close();
 
 			std::string data = ss.str();
-			std::replace(data.begin(), data.end(), '\n', ' ');
 			session.clear();
-			for (int i = 0; i < data.length() - 1; i++) {
-				std::string buf;
+			std::string buf;
+			for (int i = 0; i < data.length(); i++) {
 				buf += data[i];
-				if (data[i + 1] == ' ') {
+				if (data[i + 1] == '\n') {
 					session.push_back(buf);
 					buf.clear();
+					i++;
 				}
 			}
 		}
@@ -305,19 +323,6 @@ System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Obje
 	catch (Exception^) {
 		MessageBox::Show("Некоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
-	}
-}
-
-System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (isSessionButton->Checked) {
-		isArrayButton->Enabled = false;
-		saveSessionToolStripMenuItem->Visible = true;
-		openSessionToolStripMenuItem->Visible = true;
-	}
-	else {
-		isArrayButton->Enabled = true;
-		saveSessionToolStripMenuItem->Visible = false;
-		openSessionToolStripMenuItem->Visible = false;
 	}
 }
 

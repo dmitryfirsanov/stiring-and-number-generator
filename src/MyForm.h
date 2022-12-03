@@ -450,14 +450,14 @@ namespace coursework {
 	private: 
 		System::Void buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e);
 
-		System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-
 		System::Void isArrayButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 		System::Void isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+
 		System::Void inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e);
-		
 };
 }
