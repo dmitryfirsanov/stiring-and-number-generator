@@ -45,7 +45,8 @@ namespace coursework {
 		System::Windows::Forms::TextBox^ Output;
 		System::Windows::Forms::GroupBox^ groupBoxTypes;
 		System::Windows::Forms::GroupBox^ groupBoxMethods;
-		System::Windows::Forms::RadioButton^ radioButtonGeffe;
+	private: System::Windows::Forms::RadioButton^ radioButtonFIPS186;
+
 		System::Windows::Forms::RadioButton^ radioButtonBBS;
 		System::Windows::Forms::CheckBox^ isArrayButton;
 		System::Windows::Forms::Label^ sizeArray;
@@ -59,8 +60,16 @@ namespace coursework {
 		System::Windows::Forms::RadioButton^ radioButtonMS;
 		System::Windows::Forms::RadioButton^ radioButtonPM;
 		System::Windows::Forms::CheckBox^ isSessionButton;
-	private: System::Windows::Forms::ToolStripMenuItem^ saveSessionToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ openSessionToolStripMenuItem;
+
+
+	private: System::Windows::Forms::Button^ clearSession;
+	private: System::Windows::Forms::Button^ loadSession;
+	private: System::Windows::Forms::Button^ saveSession;
+
+
+
+
+
 
 
 
@@ -88,14 +97,12 @@ namespace coursework {
 			this->groupBoxMethods = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButtonMS = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonPM = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButtonGeffe = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButtonFIPS186 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonBBS = (gcnew System::Windows::Forms::RadioButton());
 			this->Output = (gcnew System::Windows::Forms::TextBox());
 			this->contextMenuStripForOutput = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->saveSessionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->openSessionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->groupBoxTypes = (gcnew System::Windows::Forms::GroupBox());
 			this->radioButtonInt = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButtonDouble = (gcnew System::Windows::Forms::RadioButton());
@@ -110,6 +117,9 @@ namespace coursework {
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
 			this->isSessionButton = (gcnew System::Windows::Forms::CheckBox());
+			this->saveSession = (gcnew System::Windows::Forms::Button());
+			this->loadSession = (gcnew System::Windows::Forms::Button());
+			this->clearSession = (gcnew System::Windows::Forms::Button());
 			this->groupBoxMethods->SuspendLayout();
 			this->contextMenuStripForOutput->SuspendLayout();
 			this->groupBoxTypes->SuspendLayout();
@@ -121,7 +131,7 @@ namespace coursework {
 			this->groupBoxMethods->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
 			this->groupBoxMethods->Controls->Add(this->radioButtonMS);
 			this->groupBoxMethods->Controls->Add(this->radioButtonPM);
-			this->groupBoxMethods->Controls->Add(this->radioButtonGeffe);
+			this->groupBoxMethods->Controls->Add(this->radioButtonFIPS186);
 			this->groupBoxMethods->Controls->Add(this->radioButtonBBS);
 			this->groupBoxMethods->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->groupBoxMethods->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
@@ -163,18 +173,18 @@ namespace coursework {
 			this->radioButtonPM->Text = L"Park-Miller";
 			this->radioButtonPM->UseVisualStyleBackColor = true;
 			// 
-			// radioButtonGeffe
+			// radioButtonFIPS186
 			// 
-			this->radioButtonGeffe->AutoSize = true;
-			this->radioButtonGeffe->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular,
+			this->radioButtonFIPS186->AutoSize = true;
+			this->radioButtonFIPS186->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			this->radioButtonGeffe->Location = System::Drawing::Point(6, 90);
-			this->radioButtonGeffe->Margin = System::Windows::Forms::Padding(2);
-			this->radioButtonGeffe->Name = L"radioButtonGeffe";
-			this->radioButtonGeffe->Size = System::Drawing::Size(75, 26);
-			this->radioButtonGeffe->TabIndex = 12;
-			this->radioButtonGeffe->Text = L"Geffe";
-			this->radioButtonGeffe->UseVisualStyleBackColor = true;
+			this->radioButtonFIPS186->Location = System::Drawing::Point(6, 90);
+			this->radioButtonFIPS186->Margin = System::Windows::Forms::Padding(2);
+			this->radioButtonFIPS186->Name = L"radioButtonFIPS186";
+			this->radioButtonFIPS186->Size = System::Drawing::Size(105, 26);
+			this->radioButtonFIPS186->TabIndex = 12;
+			this->radioButtonFIPS186->Text = L"FIPS 186";
+			this->radioButtonFIPS186->UseVisualStyleBackColor = true;
 			// 
 			// radioButtonBBS
 			// 
@@ -195,57 +205,41 @@ namespace coursework {
 			this->Output->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->Output->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->Output->Location = System::Drawing::Point(14, 36);
+			this->Output->Location = System::Drawing::Point(14, 49);
 			this->Output->Margin = System::Windows::Forms::Padding(2);
 			this->Output->Multiline = true;
 			this->Output->Name = L"Output";
 			this->Output->ReadOnly = true;
 			this->Output->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
-			this->Output->Size = System::Drawing::Size(296, 288);
+			this->Output->Size = System::Drawing::Size(312, 287);
 			this->Output->TabIndex = 15;
 			this->Output->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// contextMenuStripForOutput
 			// 
 			this->contextMenuStripForOutput->ImageScalingSize = System::Drawing::Size(20, 20);
-			this->contextMenuStripForOutput->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
+			this->contextMenuStripForOutput->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 				this->saveToolStripMenuItem,
-					this->openToolStripMenuItem, this->saveSessionToolStripMenuItem, this->openSessionToolStripMenuItem
+					this->openToolStripMenuItem
 			});
 			this->contextMenuStripForOutput->Name = L"contextMenuStripForOutput";
-			this->contextMenuStripForOutput->Size = System::Drawing::Size(242, 100);
+			this->contextMenuStripForOutput->Size = System::Drawing::Size(238, 52);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
 			this->saveToolStripMenuItem->ShortcutKeyDisplayString = L"";
 			this->saveToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::S));
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(241, 24);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(237, 24);
 			this->saveToolStripMenuItem->Text = L"Сохранить как...";
 			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveToolStripMenuItem_Click);
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(241, 24);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(237, 24);
 			this->openToolStripMenuItem->Text = L"Открыть";
 			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openToolStripMenuItem_Click);
-			// 
-			// saveSessionToolStripMenuItem
-			// 
-			this->saveSessionToolStripMenuItem->Name = L"saveSessionToolStripMenuItem";
-			this->saveSessionToolStripMenuItem->Size = System::Drawing::Size(241, 24);
-			this->saveSessionToolStripMenuItem->Text = L"Сохранить сессию как...";
-			this->saveSessionToolStripMenuItem->Visible = false;
-			this->saveSessionToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::saveSessionToolStripMenuItem_Click);
-			// 
-			// openSessionToolStripMenuItem
-			// 
-			this->openSessionToolStripMenuItem->Name = L"openSessionToolStripMenuItem";
-			this->openSessionToolStripMenuItem->Size = System::Drawing::Size(241, 24);
-			this->openSessionToolStripMenuItem->Text = L"Открыть сессию";
-			this->openSessionToolStripMenuItem->Visible = false;
-			this->openSessionToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::openSessionToolStripMenuItem_Click);
 			// 
 			// groupBoxTypes
 			// 
@@ -324,12 +318,12 @@ namespace coursework {
 			// max
 			// 
 			this->max->AutoSize = true;
-			this->max->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->max->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->max->Location = System::Drawing::Point(354, 49);
+			this->max->Location = System::Drawing::Point(368, 49);
 			this->max->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->max->Name = L"max";
-			this->max->Size = System::Drawing::Size(67, 29);
+			this->max->Size = System::Drawing::Size(59, 25);
 			this->max->TabIndex = 11;
 			this->max->Text = L"max:";
 			// 
@@ -351,7 +345,7 @@ namespace coursework {
 			this->isArrayButton->AutoSize = true;
 			this->isArrayButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->isArrayButton->Location = System::Drawing::Point(357, 246);
+			this->isArrayButton->Location = System::Drawing::Point(350, 246);
 			this->isArrayButton->Margin = System::Windows::Forms::Padding(4);
 			this->isArrayButton->Name = L"isArrayButton";
 			this->isArrayButton->Size = System::Drawing::Size(81, 29);
@@ -363,12 +357,12 @@ namespace coursework {
 			// sizeArray
 			// 
 			this->sizeArray->AutoSize = true;
-			this->sizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->sizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->sizeArray->Location = System::Drawing::Point(352, 281);
+			this->sizeArray->Location = System::Drawing::Point(423, 247);
 			this->sizeArray->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->sizeArray->Name = L"sizeArray";
-			this->sizeArray->Size = System::Drawing::Size(67, 29);
+			this->sizeArray->Size = System::Drawing::Size(53, 25);
 			this->sizeArray->TabIndex = 19;
 			this->sizeArray->Text = L"size:";
 			this->sizeArray->Visible = false;
@@ -378,10 +372,10 @@ namespace coursework {
 			this->inputSizeArray->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->inputSizeArray->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->inputSizeArray->Location = System::Drawing::Point(424, 282);
+			this->inputSizeArray->Location = System::Drawing::Point(476, 246);
 			this->inputSizeArray->Margin = System::Windows::Forms::Padding(2);
 			this->inputSizeArray->Name = L"inputSizeArray";
-			this->inputSizeArray->Size = System::Drawing::Size(98, 27);
+			this->inputSizeArray->Size = System::Drawing::Size(129, 27);
 			this->inputSizeArray->TabIndex = 20;
 			this->inputSizeArray->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			this->inputSizeArray->Visible = false;
@@ -403,7 +397,7 @@ namespace coursework {
 			this->isSessionButton->AutoSize = true;
 			this->isSessionButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->isSessionButton->Location = System::Drawing::Point(492, 246);
+			this->isSessionButton->Location = System::Drawing::Point(482, 246);
 			this->isSessionButton->Margin = System::Windows::Forms::Padding(4);
 			this->isSessionButton->Name = L"isSessionButton";
 			this->isSessionButton->Size = System::Drawing::Size(105, 29);
@@ -412,11 +406,47 @@ namespace coursework {
 			this->isSessionButton->UseVisualStyleBackColor = true;
 			this->isSessionButton->CheckedChanged += gcnew System::EventHandler(this, &MyForm::isSessionButton_CheckedChanged);
 			// 
+			// saveSession
+			// 
+			this->saveSession->Location = System::Drawing::Point(330, 245);
+			this->saveSession->Name = L"saveSession";
+			this->saveSession->Size = System::Drawing::Size(135, 26);
+			this->saveSession->TabIndex = 22;
+			this->saveSession->Text = L"Сохранить сессию";
+			this->saveSession->UseVisualStyleBackColor = true;
+			this->saveSession->Visible = false;
+			this->saveSession->Click += gcnew System::EventHandler(this, &MyForm::saveSession_Click);
+			// 
+			// loadSession
+			// 
+			this->loadSession->Location = System::Drawing::Point(330, 278);
+			this->loadSession->Name = L"loadSession";
+			this->loadSession->Size = System::Drawing::Size(135, 26);
+			this->loadSession->TabIndex = 23;
+			this->loadSession->Text = L"Загрузить сессию\r\n";
+			this->loadSession->UseVisualStyleBackColor = true;
+			this->loadSession->Visible = false;
+			this->loadSession->Click += gcnew System::EventHandler(this, &MyForm::loadSession_Click);
+			// 
+			// clearSession
+			// 
+			this->clearSession->Location = System::Drawing::Point(330, 310);
+			this->clearSession->Name = L"clearSession";
+			this->clearSession->Size = System::Drawing::Size(135, 26);
+			this->clearSession->TabIndex = 24;
+			this->clearSession->Text = L"Очистить сессию";
+			this->clearSession->UseVisualStyleBackColor = true;
+			this->clearSession->Visible = false;
+			this->clearSession->Click += gcnew System::EventHandler(this, &MyForm::clearSession_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(120, 120);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
 			this->ClientSize = System::Drawing::Size(620, 460);
+			this->Controls->Add(this->clearSession);
+			this->Controls->Add(this->loadSession);
+			this->Controls->Add(this->saveSession);
 			this->Controls->Add(this->isSessionButton);
 			this->Controls->Add(this->inputSizeArray);
 			this->Controls->Add(this->sizeArray);
@@ -450,14 +480,16 @@ namespace coursework {
 	private: 
 		System::Void buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e);
 
-		System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-
 		System::Void isArrayButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 		System::Void isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-		System::Void inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e);
-		
+
+		System::Void saveToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e);		
+
+		System::Void saveSession_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void loadSession_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void clearSession_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }

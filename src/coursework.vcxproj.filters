@@ -5,28 +5,19 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="src\generators">
-      <UniqueIdentifier>{c1fc6f77-55b8-4177-a088-ac893973e76f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\methods">
-      <UniqueIdentifier>{5c2e5626-1754-4538-b010-e6d1e5c3b78d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Generator.cpp">
-      <Filter>src\generators</Filter>
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="midSquareMethod.cpp">
-      <Filter>src\methods</Filter>
+    <ClCompile Include="Methods.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ParkMillerGenerator.cpp">
-      <Filter>src\methods</Filter>
-    </ClCompile>
-    <ClCompile Include="BBS.cpp">
-      <Filter>src\methods</Filter>
+    <ClCompile Include="CustomEx.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,16 +25,13 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Generator.h">
-      <Filter>src\generators</Filter>
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="midSquareMethod.h">
-      <Filter>src\methods</Filter>
+    <ClInclude Include="Methods.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="ParkMillerGenerator.h">
-      <Filter>src\methods</Filter>
-    </ClInclude>
-    <ClInclude Include="BBS.h">
-      <Filter>src\methods</Filter>
+    <ClInclude Include="CustomEx.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

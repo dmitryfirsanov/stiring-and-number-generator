@@ -1,9 +1,8 @@
 #include "MyForm.h"
 #include <Windows.h>
 #include "Generator.h"
-#include "midSquareMethod.h"
-#include "ParkMillerGenerator.h"
-#include "BBS.h"
+#include "Methods.h"
+#include "CustomEx.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
 #include <vector>
@@ -21,48 +20,79 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
+/* вектор заполн€етс€ всеми возможными вариантами
+методы генерируют индекс и удал€ет из вектора элемент */
 std::vector <std::string> session;
-std::string buf;
+std::vector <std::string> allPossibleValues;
 
+const int numberOfSymbols = 126;
+unsigned long long maxSessionSize;
+unsigned long stepForDouble;
+std::stringstream ss;
+std::string value;
+
+std::string firstsymbol("\".,-:;?!AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzAaЅб¬в√гƒд≈е®Є∆ж«з»и…й кЋлћмЌнќоѕп–р—с“т”у‘ф’х÷ц„чЎшўщЏъџы№ьЁэёюя€");
+std::string symbols("\".,-:;?!AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzAaЅб¬в√гƒд≈е®Є∆ж«з»и…й кЋлћмЌнќоѕп–р—с“т”у‘ф’х÷ц„чЎшўщЏъџы№ьЁэёюя€");
 bool isNewValue(std::string value) {
 	for (int i = 0; i < session.size(); i++) {
 		if (value == session[i]) {
 			return false;
 		}
 	}
-
 	return true;
 }
 
+void generateStrings(std::string str, int N) {
+	if (N == 0) {
+		allPossibleValues.push_back(str);
+		return;
+	}
+	for (int i = 0; i < symbols.size(); i++) {
+		char c = symbols[i];
+		generateStrings(str + c, N - 1);
+	}
+}
+
+// основна€ функци€ интерфейса дл€ генерации
 System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, System::EventArgs^ e) { 
 	Output->Text = "";
 	buttonGenerate->Enabled = false;
 
+	// ѕарсинг введенного числа
 	int n;
-
 	try {
-		n = Convert::ToInt32(inputMax->Text);
+		bool isParse = Int32::TryParse(inputMax->Text, n);
+		if(isParse == false) {
+			throw CustomEx("¬ведите max!");
+		}
 	}
-	catch (Exception^) {
-		MessageBox::Show("¬ведите max!", "Error Max", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	catch (CustomEx E) {
+		MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		buttonGenerate->Enabled = true;
 		return;
 	}
 
-	int type;
+	// ѕоиск выбранного метода
+	int type = -1;
 	for (int i = 0; i < groupBoxTypes->Controls->Count; i++) {
 		RadioButton^ button = (RadioButton^)groupBoxTypes->Controls[i];
-		if (button->Checked) type = i;
+		if (button->Checked) {
+			type = i;
+			break;
+		}
 	}
 
-	int method;
+	// ѕоиск выбранного метода
+	int method = -1;
 	for (int i = 0; i < groupBoxMethods->Controls->Count; i++) {
 		RadioButton^ button = (RadioButton^)groupBoxMethods->Controls[i];
-		if (button->Checked) method = i;
+		if (button->Checked) {
+			method = i;
+			break;
+		}
 	}
 
-	String^ output = "";
-
+	// ќсновоной объект класса
 	Generator* object;
 
 	switch (method) {
@@ -73,7 +103,7 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 		object = &ParkMillerGenerator(n, type);
 		break;
 	case 2:
-		break;
+		object = &FIPS186(n, type);
 	case 3:
 		object = &BBS(n, type);
 		break;
@@ -82,75 +112,148 @@ System::Void coursework::MyForm::buttonGenerate_Click(System::Object^ sender, Sy
 	}
 
 	int arraySize;
+	std::string output = "";
 	if (isArrayButton->Checked) {
-
 		try {
-			arraySize = Convert::ToInt32(inputSizeArray->Text);
+			bool isParse = Int32::TryParse(inputSizeArray->Text, arraySize);
+			if (isParse == false) {
+				throw CustomEx("¬ведите size!");
+			}
 		}
-		catch (Exception^) {
-			MessageBox::Show("¬ведите size!", "Error Size", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		catch (CustomEx E) {
+			MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			buttonGenerate->Enabled = true;
 			return;
 		}
 
 		for (int i = 0; i < arraySize; i++) {
-			buf = object->Generate();
-			output += marshal_as<String^>(buf) + Environment::NewLine;
+			output += object->Generate() + "\r\n";
 		}
 	}
-	else {
-		buf = object->Generate();
-		if (isSessionButton->Checked) {
-			unsigned long long maxSessionSize;
-			int numberOfSymbols = 126;
-			switch (type) {
-			case 0:
-				maxSessionSize = n + 1;
-				break;
-			case 1:
-				maxSessionSize = pow(10, n) + 1;
-				break;
-			case 2:
-				maxSessionSize = pow(numberOfSymbols, n);
-				break;
-			default:
-				break;
+	else  if (isSessionButton->Checked) {
+		// если сесси€, то формировать массив всех возможный значений 
+		// и забирать оттуда значение, выдава€ его пользователю
+		switch (type) {
+		case 0:
+			maxSessionSize = n + 1;
+			if (allPossibleValues.size() == 0 && session.size() == 0) {
+				for (int i = 0; i < maxSessionSize; i++) {
+					allPossibleValues.push_back(std::to_string(i));
+				}
 			}
+			else if (session.size() != 0) {
+				allPossibleValues.clear();
+				for (int i = 0; i < maxSessionSize; i++) {
+					value = std::to_string(i);
+					if (isNewValue(value)) {
+						allPossibleValues.push_back(value);
+					}
+				}
+			}
+			break;
+		case 1:
+			stepForDouble = pow(10, n);
+			maxSessionSize = stepForDouble + 1;
 
-			if (session.size() >= maxSessionSize) {
-				MessageBox::Show("—есси€ закончена!", "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			if (allPossibleValues.size() == 0 && session.size() == 0) {
+				for (int i = 0; i < maxSessionSize; i++) {
+					double buf = double(i) / stepForDouble;
+					ss << std::fixed << std::setprecision(n) << buf;
+					value = ss.str();
+					normalizeDouble(value, n);
+					allPossibleValues.push_back(value);
+					ss.str("");
+					ss.clear();
+				}
+			}
+			else if (session.size() != 0 && allPossibleValues.size() == 0) {
+				for (int i = 0; i < maxSessionSize; i++) {
+					double buf = double(i) / stepForDouble;
+					ss << std::fixed << std::setprecision(n) << buf;
+					value = ss.str();
+					normalizeDouble(value, n);
+					if (isNewValue(value)) {
+						allPossibleValues.push_back(value);
+					}
+					ss.str("");
+					ss.clear();
+				}
+			}
+			break;
+		case 2:
+			maxSessionSize = pow(numberOfSymbols, n);
+			if (n > 4) {
+				CustomEx E("ћаксимальное значение больше допустимого");
+				MessageBox::Show(E.getMessage(), "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
 				return;
 			}
-			while (!isNewValue(buf)) {
-				buf = object->Generate();
+			if (firstsymbol.size() != 0) {
+				std::random_device rd;
+				std::default_random_engine gen(rd());
+				std::uniform_int_distribution<int> uni_dist(0, firstsymbol.size() - 1);
+
+				auto index = uni_dist(gen);
+				std::string buf = "";
+				generateStrings(buf + firstsymbol[index], n - 1);
+				firstsymbol.erase(index, 1);
 			}
-			session.push_back(buf);
+			break;
+		default:
+			break;
 		}
 
-		output = marshal_as<String^>(buf);
+		if (session.size() == maxSessionSize) {
+			CustomEx E("—есси€ закончена!");
+			MessageBox::Show(E.getMessage(), "Seession is over", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+		
+		auto index = object->getRandomValue() % allPossibleValues.size();
+		output = allPossibleValues[index] ;
+		session.push_back(output);
+		allPossibleValues.erase(allPossibleValues.begin() + index);
 	}
-
-	if (isSessionButton->Checked) {
-		//std::string filepath = ".\\cache.txt";
-		//std::ofstream fSession;
-		//fSession.open(filepath, std::ios::app);
-		//fSession << marshal_as<std::string>(output);
-		//fSession << '\n';
-		//fSession.close();
+	else {
+		output = object->Generate();
 	}
-
-	Output->Text = output;
+	Output->Text = marshal_as<String^>(output);
 	buttonGenerate->Enabled = true;
 }
 
 System::Void coursework::MyForm::isArrayButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	inputSizeArray->Text = "";
 	if (isArrayButton->Checked) {
+		isSessionButton->Visible = false;
 		sizeArray->Visible = true;
 		inputSizeArray->Visible = true;
 	}
 	else {
+		isSessionButton->Visible = true;
 		sizeArray->Visible = false;
-		inputSizeArray->Visible = false;
+		inputSizeArray->Visible = false;	
+	}
+}
+
+System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isSessionButton->Checked) {
+		isArrayButton->Visible = false;
+		buttonGenerate->Enabled = true;
+		inputMax->Enabled = false;
+		saveSession->Visible = true;
+		loadSession->Visible = true;
+		clearSession->Visible = true;
+		groupBoxTypes->Enabled = false;
+	}
+	else {
+		isArrayButton->Visible = true;
+		buttonGenerate->Enabled = true;
+		inputMax->Enabled = true;
+		saveSession->Visible = false;
+		loadSession->Visible = false;
+		clearSession->Visible = false;
+		groupBoxTypes->Enabled = true;
+		session.clear();
+		allPossibleValues.clear();
 	}
 }
 
@@ -160,9 +263,13 @@ System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sen
 	try
 	{
 		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
+		if (filepath == "") {
+			throw CustomEx("Ќеккоретный файл!");
+		}
 		std::string extenstion = filepath;
 		std::string data = marshal_as<std::string>(Output->Text);
-		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
+		extenstion.erase(0, extenstion.rfind(".") + 1);
+		if (extenstion == "txt") {
 			std::ofstream fText(filepath);
 			fText << data;
 			fText.close();
@@ -175,8 +282,8 @@ System::Void coursework::MyForm::saveToolStripMenuItem_Click(System::Object^ sen
 			fBin.close();
 		}
 	}
-	catch (Exception^) {
-		MessageBox::Show("Ќеккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	catch (CustomEx E) {
+		MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
 }
@@ -186,6 +293,9 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 
 	try {
 		std::string filepath = marshal_as<std::string>(openFileDialog1->FileName);
+		if (filepath == "openFileDialog1") {
+			throw CustomEx("Ќекорректный файл!");
+		}
 		std::string extenstion = filepath;
 		extenstion.erase(0, extenstion.rfind(".") + 1);
 		Output->Text = "";
@@ -219,25 +329,35 @@ System::Void coursework::MyForm::openToolStripMenuItem_Click(System::Object^ sen
 			iBin.close();
 
 			std::string data = ss.str();
-			Output->Text = marshal_as<String^>(data);
-			
-				
+			Output->Text = marshal_as<String^>(data);	
 		}
 	}
-	catch (Exception^) {
-		MessageBox::Show("Ќекоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	catch (CustomEx E) {
+		MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
 }
 
-System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+System::Void coursework::MyForm::inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (isSessionButton->Checked) {
+		int max;
+		inputMax->Text == "" ? max = 0 : max = Convert::ToInt32(inputMax->Text);
+		max >= session.size() ? buttonGenerate->Enabled = true : buttonGenerate->Enabled = false;
+	}
+}
+
+System::Void coursework::MyForm::saveSession_Click(System::Object^ sender, System::EventArgs^ e) {
 	saveFileDialog1->ShowDialog();
 
 	try
 	{
 		std::string filepath = marshal_as<std::string>(saveFileDialog1->FileName);
+		if (filepath == "") {
+			throw CustomEx("Ќекорректный файл!");
+		}
 		std::string extenstion = filepath;
-		if (extenstion.erase(0, extenstion.rfind(".") + 1) == "txt") {
+		extenstion.erase(0, extenstion.rfind(".") + 1);
+		if (extenstion == "txt") {
 			std::ofstream fText(filepath);
 			for (int i = 0; i < session.size(); i++) {
 				fText << session[i];
@@ -254,21 +374,26 @@ System::Void coursework::MyForm::saveSessionToolStripMenuItem_Click(System::Obje
 			fBin.close();
 		}
 	}
-	catch (Exception^) {
-		MessageBox::Show("Ќеккоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	catch (CustomEx E) {
+		MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
-
 }
 
-System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+System::Void coursework::MyForm::loadSession_Click(System::Object^ sender, System::EventArgs^ e) {
+	Output->Text = "";
 	openFileDialog1->ShowDialog();
-
+	
 	try {
 		std::string filepath = marshal_as<std::string>(openFileDialog1->FileName);
+		if (filepath == "openFileDialog1") {
+			throw CustomEx("Ќекорректный файл!");
+		}
 		std::string extenstion = filepath;
 		extenstion.erase(0, extenstion.rfind(".") + 1);
-		Output->Text = "";
+		session.clear();
+		allPossibleValues.clear();
+
 		if (extenstion == "txt") {
 			std::ifstream iText(filepath);
 			std::string line;
@@ -290,41 +415,30 @@ System::Void coursework::MyForm::openSessionToolStripMenuItem_Click(System::Obje
 			iBin.close();
 
 			std::string data = ss.str();
-			std::replace(data.begin(), data.end(), '\n', ' ');
 			session.clear();
-			for (int i = 0; i < data.length() - 1; i++) {
-				std::string buf;
+
+			std::string buf = "";
+			for (int i = 0; i < data.size(); i++) {
 				buf += data[i];
-				if (data[i + 1] == ' ') {
+				if (data[i + 1] == '\n') {
 					session.push_back(buf);
 					buf.clear();
+					i++;
 				}
 			}
 		}
+		buttonGenerate->Enabled = true;
 	}
-	catch (Exception^) {
-		MessageBox::Show("Ќекоректный файл!", "Error File", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	catch (CustomEx E) {
+		MessageBox::Show(E.getMessage(), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		return;
 	}
 }
 
-System::Void coursework::MyForm::isSessionButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (isSessionButton->Checked) {
-		isArrayButton->Enabled = false;
-		saveSessionToolStripMenuItem->Visible = true;
-		openSessionToolStripMenuItem->Visible = true;
-	}
-	else {
-		isArrayButton->Enabled = true;
-		saveSessionToolStripMenuItem->Visible = false;
-		openSessionToolStripMenuItem->Visible = false;
-	}
-}
-
-System::Void coursework::MyForm::inputMax_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (isSessionButton->Checked) {
-		int max;
-		inputMax->Text == "" ? max = 0 : max = Convert::ToInt32(inputMax->Text);
-		max >= session.size() ? buttonGenerate->Enabled = true : buttonGenerate->Enabled = false;
-	}
+System::Void coursework::MyForm::clearSession_Click(System::Object^ sender, System::EventArgs^ e) {
+	Output->Text = "";
+	buttonGenerate->Enabled = true;
+	session.clear();
+	allPossibleValues.clear();
+	stepForDouble = 0;
 }
