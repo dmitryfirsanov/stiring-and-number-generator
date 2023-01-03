@@ -4,10 +4,10 @@
 #include "MyForm.h"
 #include <string>
 #include <cmath>
-#include <random>
 #include <sstream>
 #include <iomanip>
-
+#include <random>
+#include <vector>
 using namespace coursework;
 
 class Generator {
@@ -20,8 +20,11 @@ public:
     int getN() const;
     int getType() const;
 
-    virtual std::string Generate();
+    virtual unsigned long long getRandomValue() = 0;
+    std::string Generate();
 
-    std::string normalizeDouble(std::string&);
     std::string getSymbols();
+    void formatString(std::string &buf);
 };
+
+std::string normalizeDouble(std::string&n, int decimal);
