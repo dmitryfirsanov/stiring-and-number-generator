@@ -44,6 +44,7 @@ bool isNewValue(std::string value) {
 
 void generateStrings(std::string str, int N) {
 	if (N == 0) {
+		formatString(str);
 		allPossibleValues.push_back(str);
 		return;
 	}

@@ -75,7 +75,7 @@ std::string Generator::getSymbols() {
 	}
 }
 
-void Generator::formatString(std::string &buf) {
+void formatString(std::string &buf) {
 	for (int i = 0; i < buf.size(); i++) {
 		if (buf[i] == '\"' || buf[i] == '.' || buf[i] == ',' || buf[i] == '-' || buf[i] == ':' || buf[i] == ';' || buf[i] == '?' || buf[i] == '!') {
 			buf.insert(i + 1, " ");

@@ -24,7 +24,8 @@ public:
     std::string Generate();
 
     std::string getSymbols();
-    void formatString(std::string &buf);
+
 };
 
+void formatString(std::string& buf);
 std::string normalizeDouble(std::string&n, int decimal);
